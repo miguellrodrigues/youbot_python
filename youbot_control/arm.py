@@ -1,0 +1,152 @@
+from wbc_controller.wbc_controller import Controller
+
+from youbot_control.enum.Height import Height
+from youbot_control.enum.Orientation import Orientation
+
+from math import pi, sqrt, asin, acos, atan
+
+
+class Arm:
+    ARM1 = 0
+    ARM2 = 1
+    ARM3 = 2
+    ARM4 = 3
+    ARM5 = 4
+
+    def __init__(self, controller: Controller):
+        self.controller = controller
+        self.arm_elements = {}
+
+        self.current_height = None
+        self.current_orientation = None
+
+        self.arm_init()
+
+    def arm_init(self):
+        self.arm_elements[self.ARM1] = self.controller.get_device_by_name("arm1")
+        self.arm_elements[self.ARM2] = self.controller.get_device_by_name("arm2")
+        self.arm_elements[self.ARM3] = self.controller.get_device_by_name("arm3")
+        self.arm_elements[self.ARM4] = self.controller.get_device_by_name("arm4")
+        self.arm_elements[self.ARM5] = self.controller.get_device_by_name("arm5")
+
+        self.controller.set_motor_velocity(self.ARM2, 0.5)
+
+        self.arm_set_height(Height.ARM_RESET)
+        self.arm_set_orientation(Orientation.ARM_FRONT)
+
+    def set_arms_position(self, arms, positions):
+        for i in range(len(arms)):
+            self.arm_elements[arms[i]].setPosition(positions[i])
+
+    def _arm_change(self, positions):
+        self.set_arms_position([self.ARM2, self.ARM3, self.ARM4, self.ARM5], positions)
+
+    def arm_reset(self):
+        self.set_arms_position([self.ARM1, self.ARM2, self.ARM3, self.ARM4, self.ARM5], [.0, 1.57, -2.635, 1.78, .0])
+
+    def arm_set_height(self, height: Height):
+        if height == Height.ARM_FRONT_FLOOR:
+            self._arm_change([-.97, -1.55, -.61, .0])
+        elif height == Height.ARM_FRONT_PLATE:
+            self._arm_change([.0, -.77, 121, .0])
+        elif height == Height.ARM_FRONT_CARDBOARD_BOX:
+            self._arm_change([.0, -.77, 121, .0])
+        elif height == Height.ARM_RESET:
+            self._arm_change([1.57, -2.635, 1.75, .0])
+        elif height == Height.ARM_BACK_PLATE_HIGH:
+            self._arm_change([.678, .682, 1.74, .0])
+        elif height == Height.ARM_BACK_PLATE_LOW:
+            self._arm_change([.92, .42, 1.78, .0])
+        elif height == Height.ARM_HANOI_PREPARE:
+            self._arm_change([-.4, -1.2, -(2 * pi), (2 * pi)])
+        else:
+            print("invalid height argument")
+            return
+
+        self.current_height = height
+
+    def arm_increase_height(self):
+        self.current_height += 1
+
+        if self.current_height == 8:
+            self.current_height = Height.ARM_FRONT_FLOOR
+
+        self.arm_set_height(self.current_height)
+
+    def arm_decrease_height(self):
+        self.current_height -= 1
+
+        if self.current_height < 0:
+            self.current_height = Height.ARM_FRONT_FLOOR
+
+        self.arm_set_height(self.current_height)
+
+    def arm_set_orientation(self, orientation: Orientation):
+        if orientation == Orientation.ARM_BACK_LEFT:
+            self.arm_elements[self.ARM1].setPosition(-2.949)
+        elif orientation == Orientation.ARM_LEFT:
+            self.arm_elements[self.ARM1].setPosition(-(2 * pi))
+        elif orientation == Orientation.ARM_FRONT_LEFT:
+            self.arm_elements[self.ARM1].setPosition(-.2)
+        elif orientation == Orientation.ARM_FRONT:
+            self.arm_elements[self.ARM1].setPosition(.0)
+        elif orientation == Orientation.ARM_FRONT_RIGHT:
+            self.arm_elements[self.ARM1].setPosition(.2)
+        elif orientation == Orientation.ARM_RIGHT:
+            self.arm_elements[self.ARM1].setPosition((2 * pi))
+        elif orientation == Orientation.ARM_BACK_RIGHT:
+            self.arm_elements[self.ARM1].setPosition(2.949)
+        else:
+            print("invalid orientation argument")
+            return
+
+        self.current_orientation = orientation
+
+    def arm_increase_orientation(self):
+        self.current_orientation += 1
+
+        if self.current_orientation == 8:
+            self.current_orientation = Orientation.ARM_BACK_LEFT
+
+        self.arm_set_orientation(self.current_orientation)
+
+    def arm_decrease_orientation(self):
+        self.current_orientation -= 1
+
+        if self.current_orientation < 0:
+            self.current_orientation = Orientation.ARM_BACK_LEFT
+
+        self.arm_set_orientation(self.current_orientation)
+
+    def arm_set_sub_arm_rotation(self, arm, radian):
+        self.arm_elements[arm].setPosition(radian)
+
+    def arm_get_sub_arm_length(self, arm):
+        if arm == self.ARM1:
+            return .253
+        elif arm == self.ARM2:
+            return .155
+        elif arm == self.ARM3:
+            return .135
+        elif arm == self.ARM4:
+            return .081
+        elif arm == self.ARM5:
+            return .105
+
+        return .0
+
+    def arm_ik(self, x, y, z):
+        x1 = sqrt(x * x + z * z)
+        y1 = y + self.arm_get_sub_arm_length(self.ARM4) + self.arm_get_sub_arm_length(self.ARM5) - self.arm_get_sub_arm_length(self.ARM1)
+
+        a = self.arm_get_sub_arm_length(self.ARM2)
+        b = self.arm_get_sub_arm_length(self.ARM3)
+        c = sqrt(x1 * x1 + y1 * y1)
+
+        alpha = -asin(z / x1)
+        beta = -((2 * pi) - acos((a * a + c * c - b * b) / (2.0 * a * c)) - atan(y1 / x1))
+        gamma = -(pi - acos((a * a + b * b - c * c) / (2.0 * a * b)))
+        delta = -(pi + (beta + gamma))
+        epsilon = (2 * pi) + alpha
+
+        self.set_arms_position([self.ARM1, self.ARM2, self.ARM3, self.ARM4, self.ARM5], [alpha, beta, gamma, delta, epsilon])
