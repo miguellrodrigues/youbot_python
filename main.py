@@ -1,11 +1,8 @@
 from wbc_controller.wbc_controller import Controller
-from youbot_control.arm import Arm, Height, Orientation
+from youbot_control.youBot import YouBot
 
 cont = Controller(14, True)
-arm = Arm(cont)
-
-a = 0
-b = 0
+youBot = YouBot(cont)
 
 while cont.step() != -1:
-   print(2)
+    youBot.base.backwards()

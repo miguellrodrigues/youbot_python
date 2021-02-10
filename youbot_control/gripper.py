@@ -1,5 +1,6 @@
+from youbot_control.tiny_math import bound
 from wbc_controller.wbc_controller import Controller
-from tiny_math import bound
+
 
 class Gripper:
     LEFT = 0
@@ -14,9 +15,9 @@ class Gripper:
         self.fingers = {}
         self.controller = controller
 
-        self.gripper_init()
+        self.init()
 
-    def gripper_init(self):
+    def init(self):
         self.fingers[self.LEFT] = self.controller.get_device_by_name("finger1")
         self.fingers[self.RIGHT] = self.controller.get_device_by_name("finger2")
 

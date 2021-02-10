@@ -102,7 +102,8 @@ class Controller:
         return self.supervisor.getFromDef(node_def).getVelocity()
 
     def setup_sensors(self):
-        sensors = self.get_devices_by_type_list([Node.POSITION_SENSOR, Node.DISTANCE_SENSOR, Node.LIGHT_SENSOR, Node.TOUCH_SENSOR])
+        sensors = self.get_devices_by_type_list(
+            [Node.POSITION_SENSOR, Node.DISTANCE_SENSOR, Node.LIGHT_SENSOR, Node.TOUCH_SENSOR])
 
         for sensor in sensors:
             sensor.enable(self.sampling_rate)
