@@ -48,17 +48,17 @@ class Arm:
         if height == Height.ARM_FRONT_FLOOR:
             self._change([-.97, -1.55, -.61, .0])
         elif height == Height.ARM_FRONT_PLATE:
-            self._change([.0, -.77, 121, .0])
+            self._change([-.62, -.98, -1.53, .0])
         elif height == Height.ARM_FRONT_CARDBOARD_BOX:
-            self._change([.0, -.77, 121, .0])
+            self._change([.0, -.77, -1.21, .0])
         elif height == Height.ARM_RESET:
-            self._change([1.57, -2.635, 1.75, .0])
+            self._change([1.57, -2.635, 1.78, .0])
         elif height == Height.ARM_BACK_PLATE_HIGH:
             self._change([.678, .682, 1.74, .0])
         elif height == Height.ARM_BACK_PLATE_LOW:
             self._change([.92, .42, 1.78, .0])
         elif height == Height.ARM_HANOI_PREPARE:
-            self._change([-.4, -1.2, -(2 * pi), (2 * pi)])
+            self._change([-.4, -1.2, -(pi / 2.0), (pi / 2.0)])
         else:
             print("invalid height argument")
             return
@@ -68,8 +68,8 @@ class Arm:
     def increase_height(self):
         self.current_height += 1
 
-        if self.current_height == 8:
-            self.current_height = Height.ARM_FRONT_FLOOR
+        if self.current_height >= Height.ARM_MAX_HEIGH:
+            self.current_height = Height.ARM_MAX_HEIGH - 1
 
         self.set_height(self.current_height)
 
@@ -85,7 +85,7 @@ class Arm:
         if orientation == Orientation.ARM_BACK_LEFT:
             self.elements[self.ARM1].setPosition(-2.949)
         elif orientation == Orientation.ARM_LEFT:
-            self.elements[self.ARM1].setPosition(-(2 * pi))
+            self.elements[self.ARM1].setPosition(-(pi / 2.0))
         elif orientation == Orientation.ARM_FRONT_LEFT:
             self.elements[self.ARM1].setPosition(-.2)
         elif orientation == Orientation.ARM_FRONT:
@@ -93,7 +93,7 @@ class Arm:
         elif orientation == Orientation.ARM_FRONT_RIGHT:
             self.elements[self.ARM1].setPosition(.2)
         elif orientation == Orientation.ARM_RIGHT:
-            self.elements[self.ARM1].setPosition((2 * pi))
+            self.elements[self.ARM1].setPosition((pi / 2.0))
         elif orientation == Orientation.ARM_BACK_RIGHT:
             self.elements[self.ARM1].setPosition(2.949)
         else:
@@ -105,8 +105,8 @@ class Arm:
     def increase_orientation(self):
         self.current_orientation += 1
 
-        if self.current_orientation == 8:
-            self.current_orientation = Orientation.ARM_BACK_LEFT
+        if self.current_orientation >= Orientation.ARM_MAX_SIDE:
+            self.current_orientation = Orientation.ARM_MAX_SIDE - 1
 
         self.set_orientation(self.current_orientation)
 
@@ -144,9 +144,9 @@ class Arm:
         c = sqrt(x1 * x1 + y1 * y1)
 
         alpha = -asin(z / x1)
-        beta = -((2 * pi) - acos((a * a + c * c - b * b) / (2.0 * a * c)) - atan(y1 / x1))
+        beta = -((pi / 2.0) - acos((a * a + c * c - b * b) / (2.0 * a * c)) - atan(y1 / x1))
         gamma = -(pi - acos((a * a + b * b - c * c) / (2.0 * a * b)))
         delta = -(pi + (beta + gamma))
-        epsilon = (2 * pi) + alpha
+        epsilon = (pi / 2.0) + alpha
 
         self.set_arms_position([self.ARM1, self.ARM2, self.ARM3, self.ARM4, self.ARM5], [alpha, beta, gamma, delta, epsilon])
