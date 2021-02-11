@@ -5,9 +5,10 @@
 #  * All rights reserved
 
 from kb import KeyboardReader
-from wbc_controller.wbc_controller import Controller
-from youbot_control.enum.Height import Height
-from youbot_control.enum.Orientation import Orientation
+
+from webots_lib.wbc_controller import Controller
+from youbot_control.enum import Height, Orientation
+
 from youbot_control.youBot import YouBot
 
 kb = KeyboardReader()

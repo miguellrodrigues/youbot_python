@@ -4,7 +4,7 @@
 #  * Miguel L. Rodrigues
 #  * All rights reserved
 
-from wbc_controller.wbc_controller import Controller
+from webots_lib.wbc_controller import Controller
 
 
 class Base:

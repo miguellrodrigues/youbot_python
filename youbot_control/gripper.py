@@ -5,7 +5,7 @@
 #  * All rights reserved
 
 from youbot_control.tiny_math import bound
-from wbc_controller.wbc_controller import Controller
+from webots_lib.wbc_controller import Controller
 
 
 class Gripper:

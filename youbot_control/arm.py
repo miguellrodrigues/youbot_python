@@ -4,10 +4,8 @@
 #  * Miguel L. Rodrigues
 #  * All rights reserved
 
-from wbc_controller.wbc_controller import Controller
-
-from youbot_control.enum.Height import Height
-from youbot_control.enum.Orientation import Orientation
+from webots_lib.wbc_controller import Controller
+from youbot_control.enum import Height, Orientation
 
 from math import pi, sqrt, asin, acos, atan
 
