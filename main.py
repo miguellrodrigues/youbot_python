@@ -4,7 +4,7 @@
 #  * Miguel L. Rodrigues
 #  * All rights reserved
 
-from kb import KeyboardReader
+from keyboard_reader import KeyboardReader
 
 from webots_lib.wbc_controller import Controller
 from youbot_control.enum import Height, Orientation
@@ -34,42 +34,42 @@ passive_wait(2.0)
 
 def automatic_behavior():
     passive_wait(2.0)
-    youBot.gripper.release()
-    youBot.arm.set_height(Height.ARM_FRONT_CARDBOARD_BOX)
+    youBot.grip_release()
+    youBot.set_arm_height(Height.ARM_FRONT_CARDBOARD_BOX)
     passive_wait(4.0)
-    youBot.gripper.grip()
+    youBot.grip()
     passive_wait(1.0)
-    youBot.arm.set_height(Height.ARM_BACK_PLATE_LOW)
+    youBot.set_arm_height(Height.ARM_BACK_PLATE_LOW)
     passive_wait(3.0)
-    youBot.gripper.release()
+    youBot.grip_release()
     passive_wait(1.0)
-    youBot.arm.reset()
-    youBot.base.strafe_left()
+    youBot.arm_reset()
+    youBot.strafe_left()
     passive_wait(5.0)
-    youBot.base.reset()
+    youBot.base_reset()
     passive_wait(1.0)
-    youBot.base.turn_left()
+    youBot.turn_left()
     passive_wait(1.0)
-    youBot.base.reset()
-    youBot.arm.set_height(Height.ARM_BACK_PLATE_LOW)
+    youBot.base_reset()
+    youBot.set_arm_height(Height.ARM_BACK_PLATE_LOW)
     passive_wait(3.0)
-    youBot.gripper.grip()
+    youBot.grip()
     passive_wait(1.0)
-    youBot.arm.set_height(Height.ARM_RESET)
+    youBot.set_arm_height(Height.ARM_RESET)
     passive_wait(2.0)
-    youBot.arm.set_height(Height.ARM_FRONT_PLATE)
-    youBot.arm.set_orientation(Orientation.ARM_RIGHT)
+    youBot.set_arm_height(Height.ARM_FRONT_PLATE)
+    youBot.set_arm_orientation(Orientation.ARM_RIGHT)
     passive_wait(4.0)
-    youBot.arm.set_height(Height.ARM_FRONT_FLOOR)
+    youBot.set_arm_height(Height.ARM_FRONT_FLOOR)
     passive_wait(2.0)
-    youBot.gripper.release()
+    youBot.grip_release()
     passive_wait(1.0)
-    youBot.arm.set_height(Height.ARM_FRONT_PLATE)
+    youBot.set_arm_height(Height.ARM_FRONT_PLATE)
     passive_wait(2.0)
-    youBot.arm.set_height(Height.ARM_RESET)
+    youBot.set_arm_height(Height.ARM_RESET)
     passive_wait(2.0)
-    youBot.arm.reset()
-    youBot.gripper.grip()
+    youBot.arm_reset()
+    youBot.grip()
     passive_wait(2.0)
 
 
@@ -84,30 +84,30 @@ while cont.step() != -1:
 
     if input_data != last_input:
         if input_data == 'ih':
-            youBot.arm.increase_height()
+            youBot.increase_arm_height()
         elif input_data == 'dh':
-            youBot.arm.decrease_height()
+            youBot.decrease_arm_height()
         elif input_data == 'io':
-            youBot.arm.increase_orientation()
+            youBot.increase_arm_orientation()
         elif input_data == 'do':
-            youBot.arm.decrease_orientation()
+            youBot.decrease_arm_orientation()
         elif input_data == 'fw':
-            youBot.base.forwards()
+            youBot.forwards()
         elif input_data == 'bw':
-            youBot.base.backwards()
+            youBot.backwards()
         elif input_data == 'sl':
-            youBot.base.strafe_left()
+            youBot.strafe_left()
         elif input_data == 'sr':
-            youBot.base.strafe_right()
+            youBot.strafe_right()
         elif input_data == 'tl':
-            youBot.base.turn_left()
+            youBot.turn_left()
         elif input_data == 'tr':
-            youBot.base.turn_right()
+            youBot.turn_right()
         elif input_data == 'sb':
-            youBot.base.reset()
+            youBot.base_reset()
         elif input_data == 'gg':
-            youBot.gripper.grip()
+            youBot.grip()
         elif input_data == 'gr':
-            youBot.gripper.release()
+            youBot.grip_release()
 
         last_input = input_data
