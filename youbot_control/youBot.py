@@ -1,3 +1,9 @@
+#  * Copyright (c) 10/02/2021 22:04
+#  *
+#  * Last modified 10/02/2021 20:14
+#  * Miguel L. Rodrigues
+#  * All rights reserved
+
 from wbc_controller.wbc_controller import Controller
 
 from youbot_control.arm import Arm

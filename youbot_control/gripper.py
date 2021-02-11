@@ -1,3 +1,9 @@
+#  * Copyright (c) 10/02/2021 22:04
+#  *
+#  * Last modified 10/02/2021 20:21
+#  * Miguel L. Rodrigues
+#  * All rights reserved
+
 from youbot_control.tiny_math import bound
 from wbc_controller.wbc_controller import Controller
 

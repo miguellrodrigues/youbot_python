@@ -1,3 +1,9 @@
+#  * Copyright (c) 10/02/2021 22:04
+#  *
+#  * Last modified 10/02/2021 10:35
+#  * Miguel L. Rodrigues
+#  * All rights reserved
+
 class Orientation:
     ARM_BACK_LEFT = 0
     ARM_LEFT = 1

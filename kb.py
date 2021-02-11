@@ -1,3 +1,9 @@
+#  * Copyright (c) 10/02/2021 22:04
+#  *
+#  * Last modified 10/02/2021 20:44
+#  * Miguel L. Rodrigues
+#  * All rights reserved
+
 import time
 from threading import Thread
 

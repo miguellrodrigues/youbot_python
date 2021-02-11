@@ -1,3 +1,9 @@
+#  * Copyright (c) 10/02/2021 22:04
+#  *
+#  * Last modified 10/02/2021 21:14
+#  * Miguel L. Rodrigues
+#  * All rights reserved
+
 from kb import KeyboardReader
 from wbc_controller.wbc_controller import Controller
 from youbot_control.enum.Height import Height

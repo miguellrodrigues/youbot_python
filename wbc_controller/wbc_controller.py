@@ -1,3 +1,9 @@
+#  * Copyright (c) 10/02/2021 22:04
+#  *
+#  * Last modified 10/02/2021 15:56
+#  * Miguel L. Rodrigues
+#  * All rights reserved
+
 from webots_lib.controller import Supervisor, Node
 
 
