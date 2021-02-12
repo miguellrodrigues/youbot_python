@@ -16,7 +16,7 @@ while cont.step() != -1:
     youBot_position = youBot.get_position()
     youBot_rotation_angle = youBot.get_rotation_angle()
 
-    box_position = Vector(cont.get_object_position(""))
+    box_position = Vector(cont.get_object_position("box"))
 
     theta = youBot_position.angle(box_position)
 
