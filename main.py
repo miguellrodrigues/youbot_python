@@ -4,10 +4,11 @@
 #  * Miguel L. Rodrigues
 #  * All rights reserved
 
-from lib.utils.vector import Vector, normalize_radian, pi
+from lib.utils.vector import Vector, normalize_radian
 from lib.webots_lib.wbc_controller import Controller
 
 from lib.youbot_control.youBot import YouBot
+from math import pi
 
 cont = Controller(14, True)
 youBot = YouBot(cont)

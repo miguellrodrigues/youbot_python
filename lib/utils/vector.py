@@ -4,7 +4,7 @@
 #  * Miguel L. Rodrigues
 #  * All rights reserved
 
-from math import pi, atan2, sin, cos
+from math import atan2, sin, cos, hypot
 
 
 def normalize_radian(radian):
