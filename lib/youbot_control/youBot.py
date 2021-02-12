@@ -4,11 +4,12 @@
 #  * Miguel L. Rodrigues
 #  * All rights reserved
 
-from webots_lib.wbc_controller import Controller
+from lib.utils.vector import Vector
+from lib.webots_lib.wbc_controller import Controller
 
-from youbot_control.arm import Arm
-from youbot_control.gripper import Gripper
-from youbot_control.base import Base
+from lib.youbot_control.arm import Arm
+from lib.youbot_control.gripper import Gripper
+from lib.youbot_control.base import Base
 
 
 class YouBot:
@@ -18,6 +19,14 @@ class YouBot:
         self._arm = Arm(controller)
         self._gripper = Gripper(controller)
         self._base = Base(controller)
+
+        self.node_def = self.controller.get_supervisor().getName()
+
+    def get_rotation_angle(self):
+        return self.controller.get_object_rotation(self.node_def)[3]
+
+    def get_position(self):
+        return Vector(self.controller.get_object_position(self.node_def))
 
     def get_height(self):
         return self._arm.current_height

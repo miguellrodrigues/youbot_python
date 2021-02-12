@@ -4,7 +4,7 @@
 #  * Miguel L. Rodrigues
 #  * All rights reserved
 
-from webots_lib.controller import Supervisor, Node
+from lib.webots_lib.controller import Supervisor, Node
 
 
 class Controller:
