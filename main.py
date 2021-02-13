@@ -14,15 +14,12 @@ youBot = YouBot(cont)
 
 while cont.step() != -1:
     youBot_position = youBot.get_position()
-    youBot_rotation_angle = youBot.get_rotation_angle()
+    youBot_rotation_angle = normalize_radian(youBot.get_rotation_angle())
 
     box_position = Vector(cont.get_object_position("box"))
 
-    theta = youBot_position.angle(box_position)
+    theta = youBot_position.differenceAngle(box_position)
 
-    angle_error = normalize_radian((youBot_rotation_angle - theta))
-
-    print(angle_error)
-
+    angle_error = normalize_radian(theta - youBot_rotation_angle)
 
 
