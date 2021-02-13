@@ -22,4 +22,11 @@ while cont.step() != -1:
 
     angle_error = normalize_radian(theta - youBot_rotation_angle)
 
+    can_pick = box_position.isInSphere(youBot_position, .5823932087630905)
+
+    # if normalize_radian(angle_error) > 0.1:
+    #     youBot.turn_left()
+    # else:
+    #     youBot.turn_right()
+
 

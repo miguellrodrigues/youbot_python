@@ -18,7 +18,7 @@ class Vector:
         self.z = float(args[2])
 
     def __str__(self):
-        return str(self.x) + ":" + str(self.y) + ":" + str(self.z)
+        return "[" + str(self.x) + " " + str(self.y) + " " + str(self.z) + "]"
 
     def add(self, vector):
         self.x += vector.x
