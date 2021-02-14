@@ -99,7 +99,7 @@ class YouBot:
         self.set_arm_height(Height.ARM_LAUNCH)
         self.passive_wait(.5)
         self.grip_release()
-        self.passive_wait(.5)
+        self.passive_wait(.16)
 
         self.arm_reset()
         self.grip()

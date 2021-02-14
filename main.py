@@ -5,6 +5,7 @@
 #  * All rights reserved
 
 from math import radians
+from random import uniform
 
 from lib.utils.pid import Pid
 from lib.utils.vector import Vector, normalize_radian
@@ -25,11 +26,11 @@ state = 'align'
 
 angle_tolerance = radians(.8)
 
-radius = 0.5741111029669102
-
 minimum_distance = 0.5441111029669102
 
-while True:
+distance_tolerance = 0.0025
+
+while cont.step() != -1:
     start_time = cont.get_supervisor().getTime()
 
     youBot_position = youBot.get_position()
@@ -41,8 +42,7 @@ while True:
 
     angle_error = normalize_radian(youBot_rotation_angle + theta)
 
-    can_pick = box_position.isInSphere(youBot_position, 0.5741111029669102) and box_position.distance(
-        youBot_position) <= minimum_distance
+    distance_error = (box_position.distance(youBot_position) - minimum_distance)
 
     youBot.set_wheels_speed([.0, .0, .0, .0])
 
@@ -50,27 +50,21 @@ while True:
         state = 'walk'
     elif state == 'walk' and ((angle_error > angle_tolerance) or (angle_error < -angle_tolerance)):
         state = 'align'
-    elif state == 'walk' and can_pick:
+    elif state == 'walk' and (-distance_tolerance < distance_error < distance_tolerance):
         state = 'pick'
-    elif state == 'pick' and not can_pick:
+    elif state == 'pick' and ((angle_error > angle_tolerance) or (angle_error < -angle_tolerance)):
         state = 'align'
 
     if state == 'walk':
-        distance_error = (box_position.distance(youBot_position) - minimum_distance)
-
         out = distance_pid.compute(distance_error, start_time - end_time)
 
         youBot.set_wheels_speed([out, out, out, out])
-
-        youBot.passive_wait(1.0)
 
         end_time = cont.get_supervisor().getTime()
     elif state == 'align':
         out = angle_pid.compute(angle_error, start_time - end_time)
 
         youBot.set_wheels_speed([-out, out, out, -out])
-
-        youBot.passive_wait(1.0)
 
         end_time = cont.get_supervisor().getTime()
     elif state == 'pick':
@@ -84,6 +78,11 @@ while True:
         state = 'throw'
     elif state == 'throw':
         youBot.throw()
-        state = 'align'
 
-    print(state)
+        x = uniform(0.432629, 0.572629)
+        z = uniform(-0.187101, 0.302899)
+
+        cont.set_object_position('box', [x, .262492, z])
+        cont.set_object_rotation('box', [.01, .01, .01, .01])
+
+        state = 'align'
