@@ -35,7 +35,7 @@ class Arm:
 
         self.controller.set_motor_velocity(self.ARM2, 0.5)
 
-        self.set_height(Height.ARM_RESET)
+        self.set_height(Height.ARM_FRONT_TABLE_BOX)
         self.set_orientation(Orientation.ARM_FRONT)
 
     def set_arms_position(self, arms, positions):
@@ -55,6 +55,12 @@ class Arm:
             self._change([-.62, -.98, -1.53, .0])
         elif height == Height.ARM_FRONT_CARDBOARD_BOX:
             self._change([.0, -.77, -1.21, .0])
+        elif height == Height.ARM_FRONT_TABLE_BOX:
+            self._change([-.7, -.35, -1.4, 0.0])
+        elif height == Height.ARM_PREPARE_LAUNCH:
+            self._change([1.0, .72, .3, .0])
+        elif height == Height.ARM_LAUNCH:
+            self._change([-.5, -.5, -.3, .0])
         elif height == Height.ARM_RESET:
             self._change([1.57, -2.635, 1.78, .0])
         elif height == Height.ARM_BACK_PLATE_HIGH:
@@ -72,8 +78,8 @@ class Arm:
     def increase_height(self):
         self.current_height += 1
 
-        if self.current_height >= Height.ARM_MAX_HEIGH:
-            self.current_height = Height.ARM_MAX_HEIGH - 1
+        if self.current_height >= Height.ARM_MAX_HEIGHT:
+            self.current_height = Height.ARM_MAX_HEIGHT - 1
 
         self.set_height(self.current_height)
 

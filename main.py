@@ -20,13 +20,15 @@ while cont.step() != -1:
 
     theta = youBot_position.differenceAngle(box_position)
 
-    angle_error = normalize_radian(theta - youBot_rotation_angle)
+    angle_error = normalize_radian(youBot_rotation_angle + theta)
 
-    can_pick = box_position.isInSphere(youBot_position, .5823932087630905)
+    can_pick = box_position.isInSphere(youBot_position, 0.5716721982903271)
 
-    # if normalize_radian(angle_error) > 0.1:
-    #     youBot.turn_left()
-    # else:
-    #     youBot.turn_right()
+    print(angle_error)
+
+    if angle_error > 0:
+        youBot.strafe_right()
+    else:
+        youBot.strafe_left()
 
 

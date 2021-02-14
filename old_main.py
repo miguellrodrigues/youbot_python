@@ -21,60 +21,6 @@ youBot = YouBot(cont)
 input_data = kb.get_input()
 last_input = '.'
 
-
-def passive_wait(sec):
-    start_time = cont.get_supervisor().getTime()
-
-    while start_time + sec > cont.get_supervisor().getTime():
-        cont.step()
-
-
-passive_wait(2.0)
-
-
-def automatic_behavior():
-    passive_wait(2.0)
-    youBot.grip_release()
-    youBot.set_arm_height(Height.ARM_FRONT_CARDBOARD_BOX)
-    passive_wait(4.0)
-    youBot.grip()
-    passive_wait(1.0)
-    youBot.set_arm_height(Height.ARM_BACK_PLATE_LOW)
-    passive_wait(3.0)
-    youBot.grip_release()
-    passive_wait(1.0)
-    youBot.arm_reset()
-    youBot.strafe_left()
-    passive_wait(5.0)
-    youBot.base_reset()
-    passive_wait(1.0)
-    youBot.turn_left()
-    passive_wait(1.0)
-    youBot.base_reset()
-    youBot.set_arm_height(Height.ARM_BACK_PLATE_LOW)
-    passive_wait(3.0)
-    youBot.grip()
-    passive_wait(1.0)
-    youBot.set_arm_height(Height.ARM_RESET)
-    passive_wait(2.0)
-    youBot.set_arm_height(Height.ARM_FRONT_PLATE)
-    youBot.set_arm_orientation(Orientation.ARM_RIGHT)
-    passive_wait(4.0)
-    youBot.set_arm_height(Height.ARM_FRONT_FLOOR)
-    passive_wait(2.0)
-    youBot.grip_release()
-    passive_wait(1.0)
-    youBot.set_arm_height(Height.ARM_FRONT_PLATE)
-    passive_wait(2.0)
-    youBot.set_arm_height(Height.ARM_RESET)
-    passive_wait(2.0)
-    youBot.arm_reset()
-    youBot.grip()
-    passive_wait(2.0)
-
-
-automatic_behavior()
-
 while cont.step() != -1:
     input_data = kb.get_input()
 
