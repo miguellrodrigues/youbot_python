@@ -30,6 +30,11 @@ minimum_distance = 0.5441111029669102
 
 distance_tolerance = 0.0025
 
+can_throw = False
+
+def in_tolerance(value, tolerance):
+    return -tolerance < value < tolerance
+
 while cont.step() != -1:
     start_time = cont.get_supervisor().getTime()
 
@@ -46,25 +51,23 @@ while cont.step() != -1:
 
     youBot.set_wheels_speed([.0, .0, .0, .0])
 
-    if state == 'align' and ((angle_error < angle_tolerance) and (angle_error > -angle_tolerance)):
-        state = 'walk'
-    elif state == 'walk' and ((angle_error > angle_tolerance) or (angle_error < -angle_tolerance)):
-        state = 'align'
-    elif state == 'walk' and (-distance_tolerance < distance_error < distance_tolerance):
+    if state == 'align' and (in_tolerance(distance_error, distance_tolerance)) and (in_tolerance(angle_error, angle_tolerance)):
         state = 'pick'
-    elif state == 'pick' and ((angle_error > angle_tolerance) or (angle_error < -angle_tolerance)):
+    elif state == 'pick' and (not in_tolerance(distance_error, distance_tolerance) or not in_tolerance(angle_error, angle_tolerance)):
+        state = 'align'
+    elif state == 'pick' and can_throw:
+        state = 'throw'
+    elif state == 'throw' and not can_throw:
         state = 'align'
 
-    if state == 'walk':
-        out = distance_pid.compute(distance_error, start_time - end_time)
+    if state == 'align':
+        angle_out = angle_pid.compute(angle_error, start_time - end_time)
+        distance_out = distance_pid.compute(distance_error, start_time - end_time)
 
-        youBot.set_wheels_speed([out, out, out, out])
+        out_plus = angle_out + distance_out
+        out_minus = angle_out - distance_out
 
-        end_time = cont.get_supervisor().getTime()
-    elif state == 'align':
-        out = angle_pid.compute(angle_error, start_time - end_time)
-
-        youBot.set_wheels_speed([-out, out, out, -out])
+        youBot.set_wheels_speed([-out_minus, out_plus, out_plus, -out_minus])
 
         end_time = cont.get_supervisor().getTime()
     elif state == 'pick':
@@ -75,7 +78,7 @@ while cont.step() != -1:
         youBot.grip()
         youBot.passive_wait(.8)
 
-        state = 'throw'
+        can_throw = True
     elif state == 'throw':
         youBot.throw()
 
@@ -85,4 +88,4 @@ while cont.step() != -1:
         cont.set_object_position('box', [x, .262492, z])
         cont.set_object_rotation('box', [.01, .01, .01, .01])
 
-        state = 'align'
+        can_throw = False
