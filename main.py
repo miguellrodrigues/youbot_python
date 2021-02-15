@@ -56,9 +56,6 @@ while cont.step() != -1:
     if state == 'align' and (in_tolerance(distance_error, distance_tolerance)) and (
             in_tolerance(angle_error, angle_tolerance)):
         state = 'pick'
-    # elif state == 'pick' and (
-    #         not in_tolerance(distance_error, distance_tolerance) or not in_tolerance(angle_error, angle_tolerance)):
-    #     state = 'align'
     elif state == 'pick' and can_throw:
         state = 'throw'
     elif state == 'throw' and not can_throw:
@@ -86,13 +83,7 @@ while cont.step() != -1:
         else:
             orientation = rest
 
-        youBot.grip_release()
-        youBot.passive_wait(1.0)
-        youBot.set_arm_height_and_gripper_orientation(Height.ARM_FRONT_TABLE_BOX, normalize_radian(orientation))
-        youBot.passive_wait(1.0)
-        youBot.passive_wait(.8)
-        youBot.grip()
-        youBot.passive_wait(.8)
+        youBot.pickup(orientation)
 
         can_throw = True
     elif state == 'throw':

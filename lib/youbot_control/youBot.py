@@ -4,7 +4,7 @@
 #  * Miguel L. Rodrigues
 #  * All rights reserved
 
-from lib.utils.vector import Vector
+from lib.utils.vector import Vector, normalize_radian
 from lib.webots_lib.wbc_controller import Controller
 
 from lib.youbot_control.arm import Arm
@@ -104,10 +104,19 @@ class YouBot:
         self.passive_wait(1.0)
 
         self.set_arm_height(Height.ARM_LAUNCH)
-        self.passive_wait(.5)
+        self.passive_wait(.55)
         self.grip_release()
         self.passive_wait(.16)
 
         self.arm_reset()
         self.grip()
         self.passive_wait(2.0)
+
+    def pickup(self, orientation):
+        self.grip_release()
+        self.passive_wait(1.0)
+        self.set_arm_height_and_gripper_orientation(Height.ARM_FRONT_TABLE_BOX, normalize_radian(orientation))
+        self.passive_wait(1.0)
+        self.passive_wait(.8)
+        self.grip()
+        self.passive_wait(.8)

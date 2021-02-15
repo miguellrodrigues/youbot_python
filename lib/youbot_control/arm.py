@@ -61,7 +61,7 @@ class Arm:
         elif height == Height.ARM_FRONT_CARDBOARD_BOX:
             self._change([.0, -.77, -1.21, .0])
         elif height == Height.ARM_FRONT_TABLE_BOX:
-            self._change([-.7, -.35, -1.4, 0.0])
+            self._change([-.7, -.38, -1.365, 0.0])
         elif height == Height.ARM_PREPARE_LAUNCH:
             self._change([1.0, .72, .3, .0])
         elif height == Height.ARM_LAUNCH:
@@ -74,6 +74,8 @@ class Arm:
             self._change([.92, .42, 1.78, .0])
         elif height == Height.ARM_HANOI_PREPARE:
             self._change([-.4, -1.2, -(pi / 2.0), (pi / 2.0)])
+        elif height == Height.ARM_ALIGNING:
+            self._change([-.278, -.682, radians(-75), .0])
         else:
             print("invalid height argument")
             return
