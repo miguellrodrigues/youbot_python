@@ -46,7 +46,11 @@ class YouBot:
         
     def set_arm_height(self, height):
         self._arm.set_height(height)
-        
+
+    def set_arm_height_and_gripper_orientation(self, height, gripper_orientation):
+        self._arm.set_height(height)
+        self.set_gripper_orientation(gripper_orientation)
+
     def increase_arm_height(self):
         self._arm.increase_height()
     
@@ -91,6 +95,9 @@ class YouBot:
         
     def base_reset(self):
         self._base.reset()
+
+    def set_gripper_orientation(self, value):
+        self._arm.set_sub_rotation(self._arm.ARM5, value)
 
     def throw(self):
         self.set_arm_height(Height.ARM_PREPARE_LAUNCH)

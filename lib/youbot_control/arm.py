@@ -7,7 +7,12 @@
 from lib.webots_lib.wbc_controller import Controller
 from lib.youbot_control.enum import Height, Orientation
 
-from math import pi, sqrt, asin, acos, atan
+from math import pi, sqrt, asin, acos, atan2, sin, cos, radians
+
+
+def normalize(value):
+    value = radians(value)
+    return atan2(sin(value), cos(value))
 
 
 class Arm:
@@ -33,7 +38,7 @@ class Arm:
         self.elements[self.ARM4] = self.controller.get_device_by_name("arm4")
         self.elements[self.ARM5] = self.controller.get_device_by_name("arm5")
 
-        self.controller.set_motor_velocity(self.ARM2, 1.57)
+        self.controller.set_motor_velocity(self.ARM2, 3.1415)
 
         self.set_height(Height.ARM_RESET)
         self.set_orientation(Orientation.ARM_FRONT)
@@ -154,9 +159,10 @@ class Arm:
         c = sqrt(x1 * x1 + y1 * y1)
 
         alpha = -asin(z / x1)
-        beta = -((pi / 2.0) - acos((a * a + c * c - b * b) / (2.0 * a * c)) - atan(y1 / x1))
-        gamma = -(pi - acos((a * a + b * b - c * c) / (2.0 * a * b)))
+        beta = -((pi / 2.0) - acos(normalize(((a * a) + (c * c) - (b * b)) / (2.0 * a * c)))) - atan2(y1, x1)
+        gamma = -(pi - acos(normalize((a * a + b * b - c * c) / (2.0 * a * b))))
         delta = -(pi + (beta + gamma))
         epsilon = (pi / 2.0) + alpha
 
-        self.set_arms_position([self.ARM1, self.ARM2, self.ARM3, self.ARM4, self.ARM5], [alpha, beta, gamma, delta, epsilon])
+        self.set_arms_position([self.ARM1, self.ARM2, self.ARM3, self.ARM4, self.ARM5],
+                               [alpha, beta, gamma, delta, epsilon])

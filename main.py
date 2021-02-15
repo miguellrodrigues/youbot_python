@@ -4,7 +4,7 @@
 #  * Miguel L. Rodrigues
 #  * All rights reserved
 
-from math import radians
+from math import radians, pi
 from random import uniform
 
 from lib.utils.pid import Pid
@@ -32,8 +32,10 @@ distance_tolerance = 0.0025
 
 can_throw = False
 
+
 def in_tolerance(value, tolerance):
     return -tolerance < value < tolerance
+
 
 while cont.step() != -1:
     start_time = cont.get_supervisor().getTime()
@@ -51,10 +53,12 @@ while cont.step() != -1:
 
     youBot.set_wheels_speed([.0, .0, .0, .0])
 
-    if state == 'align' and (in_tolerance(distance_error, distance_tolerance)) and (in_tolerance(angle_error, angle_tolerance)):
+    if state == 'align' and (in_tolerance(distance_error, distance_tolerance)) and (
+            in_tolerance(angle_error, angle_tolerance)):
         state = 'pick'
-    elif state == 'pick' and (not in_tolerance(distance_error, distance_tolerance) or not in_tolerance(angle_error, angle_tolerance)):
-        state = 'align'
+    # elif state == 'pick' and (
+    #         not in_tolerance(distance_error, distance_tolerance) or not in_tolerance(angle_error, angle_tolerance)):
+    #     state = 'align'
     elif state == 'pick' and can_throw:
         state = 'throw'
     elif state == 'throw' and not can_throw:
@@ -71,10 +75,22 @@ while cont.step() != -1:
 
         end_time = cont.get_supervisor().getTime()
     elif state == 'pick':
+        orientation = .0
+
+        box_rotation = cont.get_object_rotation("box")[3]
+
+        rest = (box_rotation % (pi / 4))
+
+        if rest > pi / 4.0:
+            orientation = -((pi / 2.0) - rest)
+        else:
+            orientation = rest
+
         youBot.grip_release()
-        youBot.passive_wait(0.8)
-        youBot.set_arm_height(Height.ARM_FRONT_TABLE_BOX)
-        youBot.passive_wait(2.0)
+        youBot.passive_wait(1.0)
+        youBot.set_arm_height_and_gripper_orientation(Height.ARM_FRONT_TABLE_BOX, normalize_radian(orientation))
+        youBot.passive_wait(1.0)
+        youBot.passive_wait(.8)
         youBot.grip()
         youBot.passive_wait(.8)
 
@@ -86,6 +102,6 @@ while cont.step() != -1:
         z = uniform(-0.187101, 0.302899)
 
         cont.set_object_position('box', [x, .262492, z])
-        cont.set_object_rotation('box', [.01, .01, .01, .01])
+        cont.set_object_rotation('box', [.01, .01, .01, uniform(-pi, pi)])
 
         can_throw = False
