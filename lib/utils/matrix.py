@@ -39,7 +39,7 @@ def multiply(mx, my):
             aux = .0
 
             for k in range(my.rows):
-                k += mx.get_value(i, k) * my.get_value(k, j)
+                aux += mx.get_value(i, k) * my.get_value(k, j)
 
             matrix.set_value(i, j, aux)
 
