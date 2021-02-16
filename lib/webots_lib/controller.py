@@ -11,22 +11,22 @@
 # the SWIG interface file instead.
 
 
-import sys
 import os
+import sys
+
 if os.name == 'nt' and sys.version_info >= (3, 8):  # we need to explicitly list the folders containing the DLLs
     webots_home = os.environ['WEBOTS_HOME']
     os.add_dll_directory(os.path.join(webots_home, 'lib', 'wbcontroller'))
-# MSYS2_HOME should be set by Webots or ~/.bash_profile
-# if not set, we are in the case of an extern wbcontroller and a regularly installed version of Webots
+    # MSYS2_HOME should be set by Webots or ~/.bash_profile
+    # if not set, we are in the case of an extern wbcontroller and a regularly installed version of Webots
     msys64_root = os.environ['MSYS2_HOME'] if 'MSYS2_HOME' in os.environ else os.path.join(webots_home, 'msys64')
     cpp_folder = os.path.join(msys64_root, 'mingw64', 'bin', 'cpp')
     if not os.path.isdir(cpp_folder):  # development environment
         cpp_folder = os.path.join(msys64_root, 'mingw64', 'bin')
     os.add_dll_directory(cpp_folder)
 
-
-
 from sys import version_info as _swig_python_version_info
+
 if _swig_python_version_info >= (2, 7, 0):
     def swig_import_helper():
         import importlib
@@ -36,6 +36,8 @@ if _swig_python_version_info >= (2, 7, 0):
             return importlib.import_module(mname)
         except ImportError:
             return importlib.import_module('_controller')
+
+
     _controller = swig_import_helper()
     del swig_import_helper
 elif _swig_python_version_info >= (2, 6, 0):
@@ -54,6 +56,8 @@ elif _swig_python_version_info >= (2, 6, 0):
             if fp is not None:
                 fp.close()
         return _mod
+
+
     _controller = swig_import_helper()
     del swig_import_helper
 else:
@@ -69,6 +73,7 @@ try:
     import builtins as __builtin__
 except ImportError:
     import builtins
+
 
 def _swig_setattr_nondynamic(self, class_type, name, value, static=1):
     if (name == "thisown"):
@@ -109,12 +114,15 @@ def _swig_repr(self):
         strthis = ""
     return "<%s.%s; %s >" % (self.__class__.__module__, self.__class__.__name__, strthis,)
 
+
 try:
     _object = object
     _newclass = 1
 except __builtin__.Exception:
     class _object:
         pass
+
+
     _newclass = 0
 
 
@@ -144,6 +152,7 @@ class AnsiCodes(object):
 
     CLEAR_SCREEN = u'\u001b[2J'
 
+
 class Device(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, Device, name, value)
@@ -152,6 +161,7 @@ class Device(_object):
 
     def __init__(self, *args, **kwargs):
         raise AttributeError("No constructor defined")
+
     __repr__ = _swig_repr
     __swig_destroy__ = _controller.delete_Device
     __del__ = lambda self: None
@@ -167,16 +177,23 @@ class Device(_object):
 
     def getTag(self):
         return _controller.Device_getTag(self)
+
     if _newclass:
         hasType = staticmethod(_controller.Device_hasType)
     else:
         hasType = _controller.Device_hasType
+
+
 Device_swigregister = _controller.Device_swigregister
 Device_swigregister(Device)
 
+
 def Device_hasType(tag, type):
     return _controller.Device_hasType(tag, type)
+
+
 Device_hasType = _controller.Device_hasType
+
 
 class Accelerometer(Device):
     __swig_setmethods__ = {}
@@ -195,6 +212,7 @@ class Accelerometer(Device):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_Accelerometer
     __del__ = lambda self: None
 
@@ -215,8 +233,11 @@ class Accelerometer(Device):
 
     def getLookupTable(self):
         return _controller.Accelerometer_getLookupTable(self)
+
+
 Accelerometer_swigregister = _controller.Accelerometer_swigregister
 Accelerometer_swigregister(Accelerometer)
+
 
 class Brake(Device):
     __swig_setmethods__ = {}
@@ -237,6 +258,7 @@ class Brake(Device):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_Brake
     __del__ = lambda self: None
 
@@ -257,6 +279,7 @@ class Brake(Device):
 
     def getPositionSensorTag(self):
         return _controller.Brake_getPositionSensorTag(self)
+
     ANGULAR = _controller.Brake_ANGULAR
 
     def getMotor(self):
@@ -265,6 +288,7 @@ class Brake(Device):
         except AttributeError:
             self.__motor = Robot.internalGetDeviceFromTag(self.getMotorTag())
             return self.__motor
+
     def getPositionSensor(self):
         try:
             return self.instance
@@ -272,8 +296,10 @@ class Brake(Device):
             self.__positionSensor = Robot.internalGetDeviceFromTag(self.getPositionSensorTag())
             return self.__positionSensor
 
+
 Brake_swigregister = _controller.Brake_swigregister
 Brake_swigregister(Brake)
+
 
 class CameraRecognitionObject(_object):
     __swig_setmethods__ = {}
@@ -288,35 +314,43 @@ class CameraRecognitionObject(_object):
     __swig_setmethods__["position"] = _controller.CameraRecognitionObject_position_set
     __swig_getmethods__["position"] = _controller.CameraRecognitionObject_position_get
     if _newclass:
-        position = _swig_property(_controller.CameraRecognitionObject_position_get, _controller.CameraRecognitionObject_position_set)
+        position = _swig_property(_controller.CameraRecognitionObject_position_get,
+                                  _controller.CameraRecognitionObject_position_set)
     __swig_setmethods__["orientation"] = _controller.CameraRecognitionObject_orientation_set
     __swig_getmethods__["orientation"] = _controller.CameraRecognitionObject_orientation_get
     if _newclass:
-        orientation = _swig_property(_controller.CameraRecognitionObject_orientation_get, _controller.CameraRecognitionObject_orientation_set)
+        orientation = _swig_property(_controller.CameraRecognitionObject_orientation_get,
+                                     _controller.CameraRecognitionObject_orientation_set)
     __swig_setmethods__["size"] = _controller.CameraRecognitionObject_size_set
     __swig_getmethods__["size"] = _controller.CameraRecognitionObject_size_get
     if _newclass:
-        size = _swig_property(_controller.CameraRecognitionObject_size_get, _controller.CameraRecognitionObject_size_set)
+        size = _swig_property(_controller.CameraRecognitionObject_size_get,
+                              _controller.CameraRecognitionObject_size_set)
     __swig_setmethods__["position_on_image"] = _controller.CameraRecognitionObject_position_on_image_set
     __swig_getmethods__["position_on_image"] = _controller.CameraRecognitionObject_position_on_image_get
     if _newclass:
-        position_on_image = _swig_property(_controller.CameraRecognitionObject_position_on_image_get, _controller.CameraRecognitionObject_position_on_image_set)
+        position_on_image = _swig_property(_controller.CameraRecognitionObject_position_on_image_get,
+                                           _controller.CameraRecognitionObject_position_on_image_set)
     __swig_setmethods__["size_on_image"] = _controller.CameraRecognitionObject_size_on_image_set
     __swig_getmethods__["size_on_image"] = _controller.CameraRecognitionObject_size_on_image_get
     if _newclass:
-        size_on_image = _swig_property(_controller.CameraRecognitionObject_size_on_image_get, _controller.CameraRecognitionObject_size_on_image_set)
+        size_on_image = _swig_property(_controller.CameraRecognitionObject_size_on_image_get,
+                                       _controller.CameraRecognitionObject_size_on_image_set)
     __swig_setmethods__["number_of_colors"] = _controller.CameraRecognitionObject_number_of_colors_set
     __swig_getmethods__["number_of_colors"] = _controller.CameraRecognitionObject_number_of_colors_get
     if _newclass:
-        number_of_colors = _swig_property(_controller.CameraRecognitionObject_number_of_colors_get, _controller.CameraRecognitionObject_number_of_colors_set)
+        number_of_colors = _swig_property(_controller.CameraRecognitionObject_number_of_colors_get,
+                                          _controller.CameraRecognitionObject_number_of_colors_set)
     __swig_setmethods__["colors"] = _controller.CameraRecognitionObject_colors_set
     __swig_getmethods__["colors"] = _controller.CameraRecognitionObject_colors_get
     if _newclass:
-        colors = _swig_property(_controller.CameraRecognitionObject_colors_get, _controller.CameraRecognitionObject_colors_set)
+        colors = _swig_property(_controller.CameraRecognitionObject_colors_get,
+                                _controller.CameraRecognitionObject_colors_set)
     __swig_setmethods__["model"] = _controller.CameraRecognitionObject_model_set
     __swig_getmethods__["model"] = _controller.CameraRecognitionObject_model_get
     if _newclass:
-        model = _swig_property(_controller.CameraRecognitionObject_model_get, _controller.CameraRecognitionObject_model_set)
+        model = _swig_property(_controller.CameraRecognitionObject_model_get,
+                               _controller.CameraRecognitionObject_model_set)
 
     def get_position(self):
         return _controller.CameraRecognitionObject_get_position(self)
@@ -351,10 +385,14 @@ class CameraRecognitionObject(_object):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_CameraRecognitionObject
     __del__ = lambda self: None
+
+
 CameraRecognitionObject_swigregister = _controller.CameraRecognitionObject_swigregister
 CameraRecognitionObject_swigregister(CameraRecognitionObject)
+
 
 class Camera(Device):
     __swig_setmethods__ = {}
@@ -373,6 +411,7 @@ class Camera(Device):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_Camera
     __del__ = lambda self: None
 
@@ -471,6 +510,7 @@ class Camera(Device):
 
     def getImageArray(self):
         return _controller.Camera_getImageArray(self)
+
     if _newclass:
         imageGetRed = staticmethod(_controller.Camera_imageGetRed)
     else:
@@ -496,36 +536,53 @@ class Camera(Device):
         return _controller.Camera_getRecognitionObject(self, index)
 
     def getRecognitionObjects(self):
-       ret = []
-       for i in range(self.getRecognitionNumberOfObjects()):
-         ret.append(self.getRecognitionObject(i))
-       return ret
-
+        ret = []
+        for i in range(self.getRecognitionNumberOfObjects()):
+            ret.append(self.getRecognitionObject(i))
+        return ret
 
     def getRecognitionSegmentationImageArray(self):
         return _controller.Camera_getRecognitionSegmentationImageArray(self)
+
+
 Camera_swigregister = _controller.Camera_swigregister
 Camera_swigregister(Camera)
 
+
 def Camera_imageGetRed(*args):
     return _controller.Camera_imageGetRed(*args)
+
+
 Camera_imageGetRed = _controller.Camera_imageGetRed
+
 
 def Camera_imageGetGreen(*args):
     return _controller.Camera_imageGetGreen(*args)
+
+
 Camera_imageGetGreen = _controller.Camera_imageGetGreen
+
 
 def Camera_imageGetBlue(*args):
     return _controller.Camera_imageGetBlue(*args)
+
+
 Camera_imageGetBlue = _controller.Camera_imageGetBlue
+
 
 def Camera_imageGetGray(*args):
     return _controller.Camera_imageGetGray(*args)
+
+
 Camera_imageGetGray = _controller.Camera_imageGetGray
+
 
 def Camera_imageGetGrey(*args):
     return _controller.Camera_imageGetGrey(*args)
+
+
 Camera_imageGetGrey = _controller.Camera_imageGetGrey
+
 
 class Compass(Device):
     __swig_setmethods__ = {}
@@ -544,6 +601,7 @@ class Compass(Device):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_Compass
     __del__ = lambda self: None
 
@@ -564,8 +622,11 @@ class Compass(Device):
 
     def getLookupTable(self):
         return _controller.Compass_getLookupTable(self)
+
+
 Compass_swigregister = _controller.Compass_swigregister
 Compass_swigregister(Compass)
+
 
 class Connector(Device):
     __swig_setmethods__ = {}
@@ -584,6 +645,7 @@ class Connector(Device):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_Connector
     __del__ = lambda self: None
 
@@ -607,8 +669,11 @@ class Connector(Device):
 
     def unlock(self):
         return _controller.Connector_unlock(self)
+
+
 Connector_swigregister = _controller.Connector_swigregister
 Connector_swigregister(Connector)
+
 
 class ImageRef(_object):
     __swig_setmethods__ = {}
@@ -623,13 +688,17 @@ class ImageRef(_object):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_ImageRef
     __del__ = lambda self: None
 
     def getImageRef(self):
         return _controller.ImageRef_getImageRef(self)
+
+
 ImageRef_swigregister = _controller.ImageRef_swigregister
 ImageRef_swigregister(ImageRef)
+
 
 class Display(Device):
     __swig_setmethods__ = {}
@@ -653,6 +722,7 @@ class Display(Device):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_Display
     __del__ = lambda self: None
 
@@ -726,19 +796,23 @@ class Display(Device):
         return _controller.Display_imageDelete(self, ir)
 
     def imageNew(self, data, format, width=None, height=None):
-      if isinstance(data, list):
-        return self.__internalImageNew(len(data), len(data[0]), data, format)
-      elif width is None or height is None:
-        raise TypeError('imageNew : width and height must be given if data is not a list')
-      else:
-        return self.__internalImageNew(width, height, data, format)
+        if isinstance(data, list):
+            return self.__internalImageNew(len(data), len(data[0]), data, format)
+        elif width is None or height is None:
+            raise TypeError('imageNew : width and height must be given if data is not a list')
+        else:
+            return self.__internalImageNew(width, height, data, format)
+
     def drawPolygon(self, x, y):
-      self.__internalDrawPolygon(x, y, min(len(x), len(y)))
+        self.__internalDrawPolygon(x, y, min(len(x), len(y)))
+
     def fillPolygon(self, x, y):
-      self.__internalFillPolygon(x, y, min(len(x), len(y)))
+        self.__internalFillPolygon(x, y, min(len(x), len(y)))
+
 
 Display_swigregister = _controller.Display_swigregister
 Display_swigregister(Display)
+
 
 class DistanceSensor(Device):
     __swig_setmethods__ = {}
@@ -761,6 +835,7 @@ class DistanceSensor(Device):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_DistanceSensor
     __del__ = lambda self: None
 
@@ -793,8 +868,11 @@ class DistanceSensor(Device):
 
     def getType(self):
         return _controller.DistanceSensor_getType(self)
+
+
 DistanceSensor_swigregister = _controller.DistanceSensor_swigregister
 DistanceSensor_swigregister(DistanceSensor)
+
 
 class Emitter(Device):
     __swig_setmethods__ = {}
@@ -813,6 +891,7 @@ class Emitter(Device):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_Emitter
     __del__ = lambda self: None
     CHANNEL_BROADCAST = _controller.Emitter_CHANNEL_BROADCAST
@@ -834,8 +913,11 @@ class Emitter(Device):
 
     def setRange(self, range):
         return _controller.Emitter_setRange(self, range)
+
+
 Emitter_swigregister = _controller.Emitter_swigregister
 Emitter_swigregister(Emitter)
+
 
 class Field(_object):
     __swig_setmethods__ = {}
@@ -845,6 +927,7 @@ class Field(_object):
 
     def __init__(self, *args, **kwargs):
         raise AttributeError("No constructor defined")
+
     __repr__ = _swig_repr
     NO_FIELD = _controller.Field_NO_FIELD
     SF_BOOL = _controller.Field_SF_BOOL
@@ -1022,8 +1105,11 @@ class Field(_object):
 
     def removeMFNode(self, position):
         return _controller.Field_removeMFNode(self, position)
+
+
 Field_swigregister = _controller.Field_swigregister
 Field_swigregister(Field)
+
 
 class GPS(Device):
     __swig_setmethods__ = {}
@@ -1044,6 +1130,7 @@ class GPS(Device):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_GPS
     __del__ = lambda self: None
 
@@ -1064,16 +1151,23 @@ class GPS(Device):
 
     def getCoordinateSystem(self):
         return _controller.GPS_getCoordinateSystem(self)
+
     if _newclass:
         convertToDegreesMinutesSeconds = staticmethod(_controller.GPS_convertToDegreesMinutesSeconds)
     else:
         convertToDegreesMinutesSeconds = _controller.GPS_convertToDegreesMinutesSeconds
+
+
 GPS_swigregister = _controller.GPS_swigregister
 GPS_swigregister(GPS)
 
+
 def GPS_convertToDegreesMinutesSeconds(decimalDegree):
     return _controller.GPS_convertToDegreesMinutesSeconds(decimalDegree)
+
+
 GPS_convertToDegreesMinutesSeconds = _controller.GPS_convertToDegreesMinutesSeconds
+
 
 class Gyro(Device):
     __swig_setmethods__ = {}
@@ -1092,6 +1186,7 @@ class Gyro(Device):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_Gyro
     __del__ = lambda self: None
 
@@ -1112,8 +1207,11 @@ class Gyro(Device):
 
     def getLookupTable(self):
         return _controller.Gyro_getLookupTable(self)
+
+
 Gyro_swigregister = _controller.Gyro_swigregister
 Gyro_swigregister(Gyro)
+
 
 class InertialUnit(Device):
     __swig_setmethods__ = {}
@@ -1132,6 +1230,7 @@ class InertialUnit(Device):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_InertialUnit
     __del__ = lambda self: None
 
@@ -1152,8 +1251,11 @@ class InertialUnit(Device):
 
     def getNoise(self):
         return _controller.InertialUnit_getNoise(self)
+
+
 InertialUnit_swigregister = _controller.InertialUnit_swigregister
 InertialUnit_swigregister(InertialUnit)
+
 
 class Joystick(_object):
     __swig_setmethods__ = {}
@@ -1168,6 +1270,7 @@ class Joystick(_object):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_Joystick
     __del__ = lambda self: None
 
@@ -1215,8 +1318,11 @@ class Joystick(_object):
 
     def setForceAxis(self, axis):
         return _controller.Joystick_setForceAxis(self, axis)
+
+
 Joystick_swigregister = _controller.Joystick_swigregister
 Joystick_swigregister(Joystick)
+
 
 class Keyboard(_object):
     __swig_setmethods__ = {}
@@ -1249,6 +1355,7 @@ class Keyboard(_object):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_Keyboard
     __del__ = lambda self: None
 
@@ -1263,8 +1370,11 @@ class Keyboard(_object):
 
     def getKey(self):
         return _controller.Keyboard_getKey(self)
+
+
 Keyboard_swigregister = _controller.Keyboard_swigregister
 Keyboard_swigregister(Keyboard)
+
 
 class LED(Device):
     __swig_setmethods__ = {}
@@ -1283,6 +1393,7 @@ class LED(Device):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_LED
     __del__ = lambda self: None
 
@@ -1291,8 +1402,11 @@ class LED(Device):
 
     def get(self):
         return _controller.LED_get(self)
+
+
 LED_swigregister = _controller.LED_swigregister
 LED_swigregister(LED)
+
 
 class LidarPoint(_object):
     __swig_setmethods__ = {}
@@ -1327,10 +1441,14 @@ class LidarPoint(_object):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_LidarPoint
     __del__ = lambda self: None
+
+
 LidarPoint_swigregister = _controller.LidarPoint_swigregister
 LidarPoint_swigregister(LidarPoint)
+
 
 class Lidar(Device):
     __swig_setmethods__ = {}
@@ -1349,6 +1467,7 @@ class Lidar(Device):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_Lidar
     __del__ = lambda self: None
 
@@ -1427,28 +1546,29 @@ class Lidar(Device):
     def getLayerPoint(self, layer, index):
         return _controller.Lidar_getLayerPoint(self, layer, index)
 
-    import sys
-
     def getPointCloud(self, data_type='list'):
-      if data_type == 'list':
-        return self.__getPointCloudList()
-      elif data_type == 'buffer':
-        return self.__getPointCloudBuffer()
-      else:
-        sys.stderr.write("Error: `data_type` cannot be `{}`! Supported values are 'list' and 'buffer'.\n".format(data_type))
-        return None
+        if data_type == 'list':
+            return self.__getPointCloudList()
+        elif data_type == 'buffer':
+            return self.__getPointCloudBuffer()
+        else:
+            sys.stderr.write(
+                "Error: `data_type` cannot be `{}`! Supported values are 'list' and 'buffer'.\n".format(data_type))
+            return None
 
     def getLayerPointCloud(self, layer):
-       ret = []
-       for i in range(self.getHorizontalResolution()):
-         ret.append(self.getLayerPoint(layer, i))
-       return ret
-
+        ret = []
+        for i in range(self.getHorizontalResolution()):
+            ret.append(self.getLayerPoint(layer, i))
+        return ret
 
     def getRangeImageArray(self):
         return _controller.Lidar_getRangeImageArray(self)
+
+
 Lidar_swigregister = _controller.Lidar_swigregister
 Lidar_swigregister(Lidar)
+
 
 class LightSensor(Device):
     __swig_setmethods__ = {}
@@ -1467,6 +1587,7 @@ class LightSensor(Device):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_LightSensor
     __del__ = lambda self: None
 
@@ -1487,8 +1608,11 @@ class LightSensor(Device):
 
     def getLookupTable(self):
         return _controller.LightSensor_getLookupTable(self)
+
+
 LightSensor_swigregister = _controller.LightSensor_swigregister
 LightSensor_swigregister(LightSensor)
+
 
 class Motion(_object):
     __swig_setmethods__ = {}
@@ -1506,6 +1630,7 @@ class Motion(_object):
 
     def isValid(self):
         return _controller.Motion_isValid(self)
+
     __swig_destroy__ = _controller.delete_Motion
     __del__ = lambda self: None
 
@@ -1532,8 +1657,11 @@ class Motion(_object):
 
     def isOver(self):
         return _controller.Motion_isOver(self)
+
+
 Motion_swigregister = _controller.Motion_swigregister
 Motion_swigregister(Motion)
+
 
 class Motor(Device):
     __swig_setmethods__ = {}
@@ -1554,6 +1682,7 @@ class Motor(Device):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_Motor
     __del__ = lambda self: None
 
@@ -1656,6 +1785,7 @@ class Motor(Device):
         except AttributeError:
             self.__brake = Robot.internalGetDeviceFromTag(self.getBrakeTag())
             return self.__brake
+
     def getPositionSensor(self):
         try:
             return self.__positionSensor
@@ -1663,8 +1793,10 @@ class Motor(Device):
             self.__positionSensor = Robot.internalGetDeviceFromTag(self.getPositionSensorTag())
             return self.__positionSensor
 
+
 Motor_swigregister = _controller.Motor_swigregister
 Motor_swigregister(Motor)
+
 
 class MouseState(_object):
     __swig_setmethods__ = {}
@@ -1711,10 +1843,14 @@ class MouseState(_object):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_MouseState
     __del__ = lambda self: None
+
+
 MouseState_swigregister = _controller.MouseState_swigregister
 MouseState_swigregister(MouseState)
+
 
 class Mouse(_object):
     __swig_setmethods__ = {}
@@ -1729,6 +1865,7 @@ class Mouse(_object):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_Mouse
     __del__ = lambda self: None
 
@@ -1752,8 +1889,11 @@ class Mouse(_object):
 
     def getState(self):
         return _controller.Mouse_getState(self)
+
+
 Mouse_swigregister = _controller.Mouse_swigregister
 Mouse_swigregister(Mouse)
+
 
 class Node(_object):
     __swig_setmethods__ = {}
@@ -1763,6 +1903,7 @@ class Node(_object):
 
     def __init__(self, *args, **kwargs):
         raise AttributeError("No constructor defined")
+
     __repr__ = _swig_repr
     NO_NODE = _controller.Node_NO_NODE
     APPEARANCE = _controller.Node_APPEARANCE
@@ -1942,8 +2083,10 @@ class Node(_object):
     def __ne__(self, other):
         return not self.__eq__(other)
 
+
 Node_swigregister = _controller.Node_swigregister
 Node_swigregister(Node)
+
 
 class Pen(Device):
     __swig_setmethods__ = {}
@@ -1962,6 +2105,7 @@ class Pen(Device):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_Pen
     __del__ = lambda self: None
 
@@ -1970,8 +2114,11 @@ class Pen(Device):
 
     def setInkColor(self, color, density):
         return _controller.Pen_setInkColor(self, color, density)
+
+
 Pen_swigregister = _controller.Pen_swigregister
 Pen_swigregister(Pen)
+
 
 class PositionSensor(Device):
     __swig_setmethods__ = {}
@@ -1992,6 +2139,7 @@ class PositionSensor(Device):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_PositionSensor
     __del__ = lambda self: None
 
@@ -2021,6 +2169,7 @@ class PositionSensor(Device):
 
     def getMotorTag(self):
         return _controller.PositionSensor_getMotorTag(self)
+
     ANGULAR = _controller.PositionSensor_ANGULAR
 
     def getBrake(self):
@@ -2029,6 +2178,7 @@ class PositionSensor(Device):
         except AttributeError:
             self.__brake = Robot.internalGetDeviceFromTag(self.getBrakeTag())
             return self.__brake
+
     def getMotor(self):
         try:
             return self.__motor
@@ -2036,8 +2186,10 @@ class PositionSensor(Device):
             self.__motor = Robot.internalGetDeviceFromTag(self.getMotorTag())
             return self.__motor
 
+
 PositionSensor_swigregister = _controller.PositionSensor_swigregister
 PositionSensor_swigregister(PositionSensor)
+
 
 class RadarTarget(_object):
     __swig_setmethods__ = {}
@@ -2052,7 +2204,8 @@ class RadarTarget(_object):
     __swig_setmethods__["received_power"] = _controller.RadarTarget_received_power_set
     __swig_getmethods__["received_power"] = _controller.RadarTarget_received_power_get
     if _newclass:
-        received_power = _swig_property(_controller.RadarTarget_received_power_get, _controller.RadarTarget_received_power_set)
+        received_power = _swig_property(_controller.RadarTarget_received_power_get,
+                                        _controller.RadarTarget_received_power_set)
     __swig_setmethods__["speed"] = _controller.RadarTarget_speed_set
     __swig_getmethods__["speed"] = _controller.RadarTarget_speed_get
     if _newclass:
@@ -2068,10 +2221,14 @@ class RadarTarget(_object):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_RadarTarget
     __del__ = lambda self: None
+
+
 RadarTarget_swigregister = _controller.RadarTarget_swigregister
 RadarTarget_swigregister(RadarTarget)
+
 
 class Radar(Device):
     __swig_setmethods__ = {}
@@ -2090,6 +2247,7 @@ class Radar(Device):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_Radar
     __del__ = lambda self: None
 
@@ -2124,13 +2282,15 @@ class Radar(Device):
         return _controller.Radar_getTarget(self, index)
 
     def getTargets(self):
-       ret = []
-       for i in range(self.getNumberOfTargets()):
-         ret.append(self.getTarget(i))
-       return ret
+        ret = []
+        for i in range(self.getNumberOfTargets()):
+            ret.append(self.getTarget(i))
+        return ret
+
 
 Radar_swigregister = _controller.Radar_swigregister
 Radar_swigregister(Radar)
+
 
 class RangeFinder(Device):
     __swig_setmethods__ = {}
@@ -2149,6 +2309,7 @@ class RangeFinder(Device):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_RangeFinder
     __del__ = lambda self: None
 
@@ -2184,6 +2345,7 @@ class RangeFinder(Device):
 
     def getRangeImageArray(self):
         return _controller.RangeFinder_getRangeImageArray(self)
+
     if _newclass:
         rangeImageGetValue = staticmethod(_controller.RangeFinder_rangeImageGetValue)
     else:
@@ -2192,16 +2354,25 @@ class RangeFinder(Device):
         rangeImageGetDepth = staticmethod(_controller.RangeFinder_rangeImageGetDepth)
     else:
         rangeImageGetDepth = _controller.RangeFinder_rangeImageGetDepth
+
+
 RangeFinder_swigregister = _controller.RangeFinder_swigregister
 RangeFinder_swigregister(RangeFinder)
 
+
 def RangeFinder_rangeImageGetValue(im, minRange, maxRange, width, x, y):
     return _controller.RangeFinder_rangeImageGetValue(im, minRange, maxRange, width, x, y)
+
+
 RangeFinder_rangeImageGetValue = _controller.RangeFinder_rangeImageGetValue
+
 
 def RangeFinder_rangeImageGetDepth(*args):
     return _controller.RangeFinder_rangeImageGetDepth(*args)
+
+
 RangeFinder_rangeImageGetDepth = _controller.RangeFinder_rangeImageGetDepth
+
 
 class Receiver(Device):
     __swig_setmethods__ = {}
@@ -2220,6 +2391,7 @@ class Receiver(Device):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_Receiver
     __del__ = lambda self: None
     CHANNEL_BROADCAST = _controller.Receiver_CHANNEL_BROADCAST
@@ -2256,8 +2428,11 @@ class Receiver(Device):
 
     def getEmitterDirection(self):
         return _controller.Receiver_getEmitterDirection(self)
+
+
 Receiver_swigregister = _controller.Receiver_swigregister
 Receiver_swigregister(Receiver)
+
 
 class Skin(Device):
     __swig_setmethods__ = {}
@@ -2276,6 +2451,7 @@ class Skin(Device):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_Skin
     __del__ = lambda self: None
 
@@ -2296,8 +2472,11 @@ class Skin(Device):
 
     def getBonePosition(self, index, absolute):
         return _controller.Skin_getBonePosition(self, index, absolute)
+
+
 Skin_swigregister = _controller.Skin_swigregister
 Skin_swigregister(Skin)
+
 
 class Speaker(Device):
     __swig_setmethods__ = {}
@@ -2316,6 +2495,7 @@ class Speaker(Device):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_Speaker
     __del__ = lambda self: None
     if _newclass:
@@ -2346,12 +2526,18 @@ class Speaker(Device):
 
     def isSpeaking(self):
         return _controller.Speaker_isSpeaking(self)
+
+
 Speaker_swigregister = _controller.Speaker_swigregister
 Speaker_swigregister(Speaker)
 
+
 def Speaker_playSound(left, right, sound, volume, pitch, balance, loop):
     return _controller.Speaker_playSound(left, right, sound, volume, pitch, balance, loop)
+
+
 Speaker_playSound = _controller.Speaker_playSound
+
 
 class TouchSensor(Device):
     __swig_setmethods__ = {}
@@ -2373,6 +2559,7 @@ class TouchSensor(Device):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_TouchSensor
     __del__ = lambda self: None
 
@@ -2399,8 +2586,11 @@ class TouchSensor(Device):
 
     def getType(self):
         return _controller.TouchSensor_getType(self)
+
+
 TouchSensor_swigregister = _controller.TouchSensor_swigregister
 TouchSensor_swigregister(TouchSensor)
+
 
 class Robot(_object):
     __swig_setmethods__ = {}
@@ -2426,6 +2616,7 @@ class Robot(_object):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_Robot
     __del__ = lambda self: None
 
@@ -2509,6 +2700,7 @@ class Robot(_object):
 
     def setData(self, data):
         return _controller.Robot_setData(self, data)
+
     if _newclass:
         getDeviceFromTag = staticmethod(_controller.Robot_getDeviceFromTag)
     else:
@@ -2536,297 +2728,368 @@ class Robot(_object):
     mouse = Mouse()
     import sys
     if sys.version_info[0] < 3:
-      sys.stderr.write("DEPRECATION: Python 2.7 will reach the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 won't be maintained after that date. A future version of Webots will drop support for Python 2.7.\n")
+        sys.stderr.write(
+            "DEPRECATION: Python 2.7 will reach the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 won't be maintained after that date. A future version of Webots will drop support for Python 2.7.\n")
+
     def createAccelerometer(self, name):
-      return Accelerometer(name)
+        return Accelerometer(name)
+
     def getAccelerometer(self, name):
-      sys.stderr.write("DEPRECATION: Robot.getAccelerometer is deprecated, please use Robot.getDevice instead.\n")
-      tag = self.__internalGetDeviceTagFromName(name)
-      if not Device.hasType(tag, Node.ACCELEROMETER):
-        return None
-      return self.__getOrCreateDevice(tag)
+        sys.stderr.write("DEPRECATION: Robot.getAccelerometer is deprecated, please use Robot.getDevice instead.\n")
+        tag = self.__internalGetDeviceTagFromName(name)
+        if not Device.hasType(tag, Node.ACCELEROMETER):
+            return None
+        return self.__getOrCreateDevice(tag)
+
     def createBrake(self, name):
-      return Brake(name)
+        return Brake(name)
+
     def getBrake(self, name):
-      sys.stderr.write("DEPRECATION: Robot.getBrake is deprecated, please use Robot.getDevice instead.\n")
-      tag = self.__internalGetDeviceTagFromName(name)
-      if not Device.hasType(tag, Node.BRAKE):
-        return None
-      return self.__getOrCreateDevice(tag)
+        sys.stderr.write("DEPRECATION: Robot.getBrake is deprecated, please use Robot.getDevice instead.\n")
+        tag = self.__internalGetDeviceTagFromName(name)
+        if not Device.hasType(tag, Node.BRAKE):
+            return None
+        return self.__getOrCreateDevice(tag)
+
     def createCamera(self, name):
-      return Camera(name)
+        return Camera(name)
+
     def getCamera(self, name):
-      sys.stderr.write("DEPRECATION: Robot.getCamera is deprecated, please use Robot.getDevice instead.\n")
-      tag = self.__internalGetDeviceTagFromName(name)
-      if not Device.hasType(tag, Node.CAMERA):
-        return None
-      return self.__getOrCreateDevice(tag)
+        sys.stderr.write("DEPRECATION: Robot.getCamera is deprecated, please use Robot.getDevice instead.\n")
+        tag = self.__internalGetDeviceTagFromName(name)
+        if not Device.hasType(tag, Node.CAMERA):
+            return None
+        return self.__getOrCreateDevice(tag)
+
     def createCompass(self, name):
-      return Compass(name)
+        return Compass(name)
+
     def getCompass(self, name):
-      sys.stderr.write("DEPRECATION: Robot.getCompass is deprecated, please use Robot.getDevice instead.\n")
-      tag = self.__internalGetDeviceTagFromName(name)
-      if not Device.hasType(tag, Node.COMPASS):
-        return None
-      return self.__getOrCreateDevice(tag)
+        sys.stderr.write("DEPRECATION: Robot.getCompass is deprecated, please use Robot.getDevice instead.\n")
+        tag = self.__internalGetDeviceTagFromName(name)
+        if not Device.hasType(tag, Node.COMPASS):
+            return None
+        return self.__getOrCreateDevice(tag)
+
     def createConnector(self, name):
-      return Connector(name)
+        return Connector(name)
+
     def getConnector(self, name):
-      sys.stderr.write("DEPRECATION: Robot.getConnector is deprecated, please use Robot.getDevice instead.\n")
-      tag = self.__internalGetDeviceTagFromName(name)
-      if not Device.hasType(tag, Node.CONNECTOR):
-        return None
-      return self.__getOrCreateDevice(tag)
+        sys.stderr.write("DEPRECATION: Robot.getConnector is deprecated, please use Robot.getDevice instead.\n")
+        tag = self.__internalGetDeviceTagFromName(name)
+        if not Device.hasType(tag, Node.CONNECTOR):
+            return None
+        return self.__getOrCreateDevice(tag)
+
     def createDisplay(self, name):
-      return Display(name)
+        return Display(name)
+
     def getDisplay(self, name):
-      sys.stderr.write("DEPRECATION: Robot.getDisplay is deprecated, please use Robot.getDevice instead.\n")
-      tag = self.__internalGetDeviceTagFromName(name)
-      if not Device.hasType(tag, Node.DISPLAY):
-        return None
-      return self.__getOrCreateDevice(tag)
+        sys.stderr.write("DEPRECATION: Robot.getDisplay is deprecated, please use Robot.getDevice instead.\n")
+        tag = self.__internalGetDeviceTagFromName(name)
+        if not Device.hasType(tag, Node.DISPLAY):
+            return None
+        return self.__getOrCreateDevice(tag)
+
     def createDistanceSensor(self, name):
-      return DistanceSensor(name)
+        return DistanceSensor(name)
+
     def getDistanceSensor(self, name):
-      sys.stderr.write("DEPRECATION: Robot.getDistanceSensor is deprecated, please use Robot.getDevice instead.\n")
-      tag = self.__internalGetDeviceTagFromName(name)
-      if not Device.hasType(tag, Node.DISTANCE_SENSOR):
-        return None
-      return self.__getOrCreateDevice(tag)
+        sys.stderr.write("DEPRECATION: Robot.getDistanceSensor is deprecated, please use Robot.getDevice instead.\n")
+        tag = self.__internalGetDeviceTagFromName(name)
+        if not Device.hasType(tag, Node.DISTANCE_SENSOR):
+            return None
+        return self.__getOrCreateDevice(tag)
+
     def createEmitter(self, name):
-      return Emitter(name)
+        return Emitter(name)
+
     def getEmitter(self, name):
-      sys.stderr.write("DEPRECATION: Robot.getEmitter is deprecated, please use Robot.getDevice instead.\n")
-      tag = self.__internalGetDeviceTagFromName(name)
-      if not Device.hasType(tag, Node.EMITTER):
-        return None
-      return self.__getOrCreateDevice(tag)
+        sys.stderr.write("DEPRECATION: Robot.getEmitter is deprecated, please use Robot.getDevice instead.\n")
+        tag = self.__internalGetDeviceTagFromName(name)
+        if not Device.hasType(tag, Node.EMITTER):
+            return None
+        return self.__getOrCreateDevice(tag)
+
     def createGPS(self, name):
-      return GPS(name)
+        return GPS(name)
+
     def getGPS(self, name):
-      sys.stderr.write("DEPRECATION: Robot.getGPS is deprecated, please use Robot.getDevice instead.\n")
-      tag = self.__internalGetDeviceTagFromName(name)
-      if not Device.hasType(tag, Node.GPS):
-        return None
-      return self.__getOrCreateDevice(tag)
+        sys.stderr.write("DEPRECATION: Robot.getGPS is deprecated, please use Robot.getDevice instead.\n")
+        tag = self.__internalGetDeviceTagFromName(name)
+        if not Device.hasType(tag, Node.GPS):
+            return None
+        return self.__getOrCreateDevice(tag)
+
     def createGyro(self, name):
-      return Gyro(name)
+        return Gyro(name)
+
     def getGyro(self, name):
-      sys.stderr.write("DEPRECATION: Robot.getGyro is deprecated, please use Robot.getDevice instead.\n")
-      tag = self.__internalGetDeviceTagFromName(name)
-      if not Device.hasType(tag, Node.GYRO):
-        return None
-      return self.__getOrCreateDevice(tag)
+        sys.stderr.write("DEPRECATION: Robot.getGyro is deprecated, please use Robot.getDevice instead.\n")
+        tag = self.__internalGetDeviceTagFromName(name)
+        if not Device.hasType(tag, Node.GYRO):
+            return None
+        return self.__getOrCreateDevice(tag)
+
     def createInertialUnit(self, name):
-      return InertialUnit(name)
+        return InertialUnit(name)
+
     def getInertialUnit(self, name):
-      sys.stderr.write("DEPRECATION: Robot.getInertialUnit is deprecated, please use Robot.getDevice instead.\n")
-      tag = self.__internalGetDeviceTagFromName(name)
-      if not Device.hasType(tag, Node.INERTIAL_UNIT):
-        return None
-      return self.__getOrCreateDevice(tag)
+        sys.stderr.write("DEPRECATION: Robot.getInertialUnit is deprecated, please use Robot.getDevice instead.\n")
+        tag = self.__internalGetDeviceTagFromName(name)
+        if not Device.hasType(tag, Node.INERTIAL_UNIT):
+            return None
+        return self.__getOrCreateDevice(tag)
+
     def getJoystick(self):
-      return self.joystick
+        return self.joystick
+
     def getKeyboard(self):
-      return self.keyboard
+        return self.keyboard
+
     def createLED(self, name):
-      return LED(name)
+        return LED(name)
+
     def getLED(self, name):
-      sys.stderr.write("DEPRECATION: Robot.getLED is deprecated, please use Robot.getDevice instead.\n")
-      tag = self.__internalGetDeviceTagFromName(name)
-      if not Device.hasType(tag, Node.LED):
-        return None
-      return self.__getOrCreateDevice(tag)
+        sys.stderr.write("DEPRECATION: Robot.getLED is deprecated, please use Robot.getDevice instead.\n")
+        tag = self.__internalGetDeviceTagFromName(name)
+        if not Device.hasType(tag, Node.LED):
+            return None
+        return self.__getOrCreateDevice(tag)
+
     def createLidar(self, name):
-      return Lidar(name)
+        return Lidar(name)
+
     def getLidar(self, name):
-      sys.stderr.write("DEPRECATION: Robot.getLidar is deprecated, please use Robot.getDevice instead.\n")
-      tag = self.__internalGetDeviceTagFromName(name)
-      if not Device.hasType(tag, Node.LIDAR):
-        return None
-      return self.__getOrCreateDevice(tag)
+        sys.stderr.write("DEPRECATION: Robot.getLidar is deprecated, please use Robot.getDevice instead.\n")
+        tag = self.__internalGetDeviceTagFromName(name)
+        if not Device.hasType(tag, Node.LIDAR):
+            return None
+        return self.__getOrCreateDevice(tag)
+
     def createLightSensor(self, name):
-      return LightSensor(name)
+        return LightSensor(name)
+
     def getLightSensor(self, name):
-      sys.stderr.write("DEPRECATION: Robot.getLightSensor is deprecated, please use Robot.getDevice instead.\n")
-      tag = self.__internalGetDeviceTagFromName(name)
-      if not Device.hasType(tag, Node.LIGHT_SENSOR):
-        return None
-      return self.__getOrCreateDevice(tag)
+        sys.stderr.write("DEPRECATION: Robot.getLightSensor is deprecated, please use Robot.getDevice instead.\n")
+        tag = self.__internalGetDeviceTagFromName(name)
+        if not Device.hasType(tag, Node.LIGHT_SENSOR):
+            return None
+        return self.__getOrCreateDevice(tag)
+
     def createMotor(self, name):
-      return Motor(name)
+        return Motor(name)
+
     def getMotor(self, name):
-      sys.stderr.write("DEPRECATION: Robot.getMotor is deprecated, please use Robot.getDevice instead.\n")
-      tag = self.__internalGetDeviceTagFromName(name)
-      if not Device.hasType(tag, Node.LINEAR_MOTOR) and not Device.hasType(tag, Node.ROTATIONAL_MOTOR):
-        return None
-      return self.__getOrCreateDevice(tag)
+        sys.stderr.write("DEPRECATION: Robot.getMotor is deprecated, please use Robot.getDevice instead.\n")
+        tag = self.__internalGetDeviceTagFromName(name)
+        if not Device.hasType(tag, Node.LINEAR_MOTOR) and not Device.hasType(tag, Node.ROTATIONAL_MOTOR):
+            return None
+        return self.__getOrCreateDevice(tag)
+
     def getMouse(self):
-      return self.mouse
+        return self.mouse
+
     def createPen(self, name):
-      return Pen(name)
+        return Pen(name)
+
     def getPen(self, name):
-      sys.stderr.write("DEPRECATION: Robot.getPen is deprecated, please use Robot.getDevice instead.\n")
-      tag = self.__internalGetDeviceTagFromName(name)
-      if not Device.hasType(tag, Node.PEN):
-        return None
-      return self.__getOrCreateDevice(tag)
+        sys.stderr.write("DEPRECATION: Robot.getPen is deprecated, please use Robot.getDevice instead.\n")
+        tag = self.__internalGetDeviceTagFromName(name)
+        if not Device.hasType(tag, Node.PEN):
+            return None
+        return self.__getOrCreateDevice(tag)
+
     def createPositionSensor(self, name):
-      return PositionSensor(name)
+        return PositionSensor(name)
+
     def getPositionSensor(self, name):
-      sys.stderr.write("DEPRECATION: Robot.getPositionSensor is deprecated, please use Robot.getDevice instead.\n")
-      tag = self.__internalGetDeviceTagFromName(name)
-      if not Device.hasType(tag, Node.POSITION_SENSOR):
-        return None
-      return self.__getOrCreateDevice(tag)
+        sys.stderr.write("DEPRECATION: Robot.getPositionSensor is deprecated, please use Robot.getDevice instead.\n")
+        tag = self.__internalGetDeviceTagFromName(name)
+        if not Device.hasType(tag, Node.POSITION_SENSOR):
+            return None
+        return self.__getOrCreateDevice(tag)
+
     def createRadar(self, name):
-      return Radar(name)
+        return Radar(name)
+
     def getRadar(self, name):
-      sys.stderr.write("DEPRECATION: Robot.getRadar is deprecated, please use Robot.getDevice instead.\n")
-      tag = self.__internalGetDeviceTagFromName(name)
-      if not Device.hasType(tag, Node.RADAR):
-        return None
-      return self.__getOrCreateDevice(tag)
+        sys.stderr.write("DEPRECATION: Robot.getRadar is deprecated, please use Robot.getDevice instead.\n")
+        tag = self.__internalGetDeviceTagFromName(name)
+        if not Device.hasType(tag, Node.RADAR):
+            return None
+        return self.__getOrCreateDevice(tag)
+
     def createRangeFinder(self, name):
-      return RangeFinder(name)
+        return RangeFinder(name)
+
     def getRangeFinder(self, name):
-      sys.stderr.write("DEPRECATION: Robot.getRangeFinder is deprecated, please use Robot.getDevice instead.\n")
-      tag = self.__internalGetDeviceTagFromName(name)
-      if not Device.hasType(tag, Node.RANGE_FINDER):
-        return None
-      return self.__getOrCreateDevice(tag)
+        sys.stderr.write("DEPRECATION: Robot.getRangeFinder is deprecated, please use Robot.getDevice instead.\n")
+        tag = self.__internalGetDeviceTagFromName(name)
+        if not Device.hasType(tag, Node.RANGE_FINDER):
+            return None
+        return self.__getOrCreateDevice(tag)
+
     def createReceiver(self, name):
-      return Receiver(name)
+        return Receiver(name)
+
     def getReceiver(self, name):
-      sys.stderr.write("DEPRECATION: Robot.getReceiver is deprecated, please use Robot.getDevice instead.\n")
-      tag = self.__internalGetDeviceTagFromName(name)
-      if not Device.hasType(tag, Node.RECEIVER):
-        return None
-      return self.__getOrCreateDevice(tag)
+        sys.stderr.write("DEPRECATION: Robot.getReceiver is deprecated, please use Robot.getDevice instead.\n")
+        tag = self.__internalGetDeviceTagFromName(name)
+        if not Device.hasType(tag, Node.RECEIVER):
+            return None
+        return self.__getOrCreateDevice(tag)
+
     def createSkin(self, name):
-      return Skin(name)
+        return Skin(name)
+
     def getSkin(self, name):
-      sys.stderr.write("DEPRECATION: Robot.getSkin is deprecated, please use Robot.getDevice instead.\n")
-      tag = self.__internalGetDeviceTagFromName(name)
-      if not Device.hasType(tag, Node.SKIN):
-        return None
-      return self.__getOrCreateDevice(tag)
+        sys.stderr.write("DEPRECATION: Robot.getSkin is deprecated, please use Robot.getDevice instead.\n")
+        tag = self.__internalGetDeviceTagFromName(name)
+        if not Device.hasType(tag, Node.SKIN):
+            return None
+        return self.__getOrCreateDevice(tag)
+
     def createSpeaker(self, name):
-      return Speaker(name)
+        return Speaker(name)
+
     def getSpeaker(self, name):
-      sys.stderr.write("DEPRECATION: Robot.getSpeaker is deprecated, please use Robot.getDevice instead.\n")
-      tag = self.__internalGetDeviceTagFromName(name)
-      if not Device.hasType(tag, Node.SPEAKER):
-        return None
-      return self.__getOrCreateDevice(tag)
+        sys.stderr.write("DEPRECATION: Robot.getSpeaker is deprecated, please use Robot.getDevice instead.\n")
+        tag = self.__internalGetDeviceTagFromName(name)
+        if not Device.hasType(tag, Node.SPEAKER):
+            return None
+        return self.__getOrCreateDevice(tag)
+
     def createTouchSensor(self, name):
-      return TouchSensor(name)
+        return TouchSensor(name)
+
     def getTouchSensor(self, name):
-      sys.stderr.write("DEPRECATION: Robot.getTouchSensor is deprecated, please use Robot.getDevice instead.\n")
-      tag = self.__internalGetDeviceTagFromName(name)
-      if not Device.hasType(tag, Node.TOUCH_SENSOR):
-        return None
-      return self.__getOrCreateDevice(tag)
+        sys.stderr.write("DEPRECATION: Robot.getTouchSensor is deprecated, please use Robot.getDevice instead.\n")
+        tag = self.__internalGetDeviceTagFromName(name)
+        if not Device.hasType(tag, Node.TOUCH_SENSOR):
+            return None
+        return self.__getOrCreateDevice(tag)
+
     def getDeviceByIndex(self, index):
-      tag = self.__internalGetDeviceTagFromIndex(index)
-      return self.__getOrCreateDevice(tag)
+        tag = self.__internalGetDeviceTagFromIndex(index)
+        return self.__getOrCreateDevice(tag)
+
     def getDevice(self, name):
-      tag = self.__internalGetDeviceTagFromName(name)
-      return self.__getOrCreateDevice(tag)
+        tag = self.__internalGetDeviceTagFromName(name)
+        return self.__getOrCreateDevice(tag)
+
     @staticmethod
     def internalGetDeviceFromTag(tag):
-      if tag == 0:
-          return None
-      size = len(Robot.__devices)
-      if size == 0 or tag >= size:
-          return None
-      return Robot.__devices[tag]
-    def __getOrCreateDevice(self, tag):
-      if tag == 0:
-          return None
-      count = self.getNumberOfDevices()
-      size = len(Robot.__devices)
-    # if new devices have been added, then count is greater than size
-    # deleted devices are not removed from the C API list and don't affect the number of devices
-      if count == size and size > 0 and tag < size:
-          return Robot.__devices[tag]
+        if tag == 0:
+            return None
+        size = len(Robot.__devices)
+        if size == 0 or tag >= size:
+            return None
+        return Robot.__devices[tag]
 
-    # (re-)initialize Robot.__devices list
-      if tag > count:
-          return None
-      Robot.__devices = [None] * (count + 1)
-      for i in range(0, count):
-          otherTag = self.__internalGetDeviceTagFromIndex(i)
-          name = self.__internalGetDeviceNameFromTag(otherTag)
-          nodeType = self.__internalGetDeviceTypeFromTag(otherTag)
-          if nodeType == Node.ACCELEROMETER:
-              Robot.__devices[otherTag] = self.createAccelerometer(name)
-          elif nodeType == Node.BRAKE:
-              Robot.__devices[otherTag] = self.createBrake(name)
-          elif nodeType == Node.CAMERA:
-              Robot.__devices[otherTag] = self.createCamera(name)
-          elif nodeType == Node.COMPASS:
-              Robot.__devices[otherTag] = self.createCompass(name)
-          elif nodeType == Node.CONNECTOR:
-              Robot.__devices[otherTag] = self.createConnector(name)
-          elif nodeType == Node.DISPLAY:
-              Robot.__devices[otherTag] = self.createDisplay(name)
-          elif nodeType == Node.DISTANCE_SENSOR:
-              Robot.__devices[otherTag] = self.createDistanceSensor(name)
-          elif nodeType == Node.EMITTER:
-              Robot.__devices[otherTag] = self.createEmitter(name)
-          elif nodeType == Node.GPS:
-              Robot.__devices[otherTag] = self.createGPS(name)
-          elif nodeType == Node.GYRO:
-              Robot.__devices[otherTag] = self.createGyro(name)
-          elif nodeType == Node.INERTIAL_UNIT:
-              Robot.__devices[otherTag] = self.createInertialUnit(name)
-          elif nodeType == Node.LED:
-              Robot.__devices[otherTag] = self.createLED(name)
-          elif nodeType == Node.LIDAR:
-              Robot.__devices[otherTag] = self.createLidar(name)
-          elif nodeType == Node.LIGHT_SENSOR:
-              Robot.__devices[otherTag] = self.createLightSensor(name)
-          elif nodeType == Node.LINEAR_MOTOR or nodeType == Node.ROTATIONAL_MOTOR:
-              Robot.__devices[otherTag] = self.createMotor(name)
-          elif nodeType == Node.PEN:
-              Robot.__devices[otherTag] = self.createPen(name)
-          elif nodeType == Node.POSITION_SENSOR:
-              Robot.__devices[otherTag] = self.createPositionSensor(name)
-          elif nodeType == Node.RADAR:
-              Robot.__devices[otherTag] = self.createRadar(name)
-          elif nodeType == Node.RANGE_FINDER:
-              Robot.__devices[otherTag] = self.createRangeFinder(name)
-          elif nodeType == Node.RECEIVER:
-              Robot.__devices[otherTag] = self.createReceiver(name)
-          elif nodeType == Node.SPEAKER:
-              Robot.__devices[otherTag] = self.createSpeaker(name)
-          elif nodeType == Node.TOUCH_SENSOR:
-              Robot.__devices[otherTag] = self.createTouchSensor(name)
-      return Robot.__devices[tag]
+    def __getOrCreateDevice(self, tag):
+        if tag == 0:
+            return None
+        count = self.getNumberOfDevices()
+        size = len(Robot.__devices)
+        # if new devices have been added, then count is greater than size
+        # deleted devices are not removed from the C API list and don't affect the number of devices
+        if count == size and size > 0 and tag < size:
+            return Robot.__devices[tag]
+
+        # (re-)initialize Robot.__devices list
+        if tag > count:
+            return None
+        Robot.__devices = [None] * (count + 1)
+        for i in range(0, count):
+            otherTag = self.__internalGetDeviceTagFromIndex(i)
+            name = self.__internalGetDeviceNameFromTag(otherTag)
+            nodeType = self.__internalGetDeviceTypeFromTag(otherTag)
+            if nodeType == Node.ACCELEROMETER:
+                Robot.__devices[otherTag] = self.createAccelerometer(name)
+            elif nodeType == Node.BRAKE:
+                Robot.__devices[otherTag] = self.createBrake(name)
+            elif nodeType == Node.CAMERA:
+                Robot.__devices[otherTag] = self.createCamera(name)
+            elif nodeType == Node.COMPASS:
+                Robot.__devices[otherTag] = self.createCompass(name)
+            elif nodeType == Node.CONNECTOR:
+                Robot.__devices[otherTag] = self.createConnector(name)
+            elif nodeType == Node.DISPLAY:
+                Robot.__devices[otherTag] = self.createDisplay(name)
+            elif nodeType == Node.DISTANCE_SENSOR:
+                Robot.__devices[otherTag] = self.createDistanceSensor(name)
+            elif nodeType == Node.EMITTER:
+                Robot.__devices[otherTag] = self.createEmitter(name)
+            elif nodeType == Node.GPS:
+                Robot.__devices[otherTag] = self.createGPS(name)
+            elif nodeType == Node.GYRO:
+                Robot.__devices[otherTag] = self.createGyro(name)
+            elif nodeType == Node.INERTIAL_UNIT:
+                Robot.__devices[otherTag] = self.createInertialUnit(name)
+            elif nodeType == Node.LED:
+                Robot.__devices[otherTag] = self.createLED(name)
+            elif nodeType == Node.LIDAR:
+                Robot.__devices[otherTag] = self.createLidar(name)
+            elif nodeType == Node.LIGHT_SENSOR:
+                Robot.__devices[otherTag] = self.createLightSensor(name)
+            elif nodeType == Node.LINEAR_MOTOR or nodeType == Node.ROTATIONAL_MOTOR:
+                Robot.__devices[otherTag] = self.createMotor(name)
+            elif nodeType == Node.PEN:
+                Robot.__devices[otherTag] = self.createPen(name)
+            elif nodeType == Node.POSITION_SENSOR:
+                Robot.__devices[otherTag] = self.createPositionSensor(name)
+            elif nodeType == Node.RADAR:
+                Robot.__devices[otherTag] = self.createRadar(name)
+            elif nodeType == Node.RANGE_FINDER:
+                Robot.__devices[otherTag] = self.createRangeFinder(name)
+            elif nodeType == Node.RECEIVER:
+                Robot.__devices[otherTag] = self.createReceiver(name)
+            elif nodeType == Node.SPEAKER:
+                Robot.__devices[otherTag] = self.createSpeaker(name)
+            elif nodeType == Node.TOUCH_SENSOR:
+                Robot.__devices[otherTag] = self.createTouchSensor(name)
+        return Robot.__devices[tag]
+
 
 Robot_swigregister = _controller.Robot_swigregister
 Robot_swigregister(Robot)
 
+
 def Robot_getDeviceFromTag(tag):
     return _controller.Robot_getDeviceFromTag(tag)
+
+
 Robot_getDeviceFromTag = _controller.Robot_getDeviceFromTag
+
 
 def Robot___internalGetDeviceTypeFromTag(tag):
     return _controller.Robot___internalGetDeviceTypeFromTag(tag)
+
+
 Robot___internalGetDeviceTypeFromTag = _controller.Robot___internalGetDeviceTypeFromTag
+
 
 def Robot___internalGetDeviceNameFromTag(tag):
     return _controller.Robot___internalGetDeviceNameFromTag(tag)
+
+
 Robot___internalGetDeviceNameFromTag = _controller.Robot___internalGetDeviceNameFromTag
+
 
 def Robot___internalGetDeviceTagFromIndex(index):
     return _controller.Robot___internalGetDeviceTagFromIndex(index)
+
+
 Robot___internalGetDeviceTagFromIndex = _controller.Robot___internalGetDeviceTagFromIndex
+
 
 def Robot___internalGetDeviceTagFromName(name):
     return _controller.Robot___internalGetDeviceTagFromName(name)
+
+
 Robot___internalGetDeviceTagFromName = _controller.Robot___internalGetDeviceTagFromName
+
 
 class DifferentialWheels(Robot):
     __swig_setmethods__ = {}
@@ -2845,6 +3108,7 @@ class DifferentialWheels(Robot):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_DifferentialWheels
     __del__ = lambda self: None
 
@@ -2880,8 +3144,11 @@ class DifferentialWheels(Robot):
 
     def setEncoders(self, left, right):
         return _controller.DifferentialWheels_setEncoders(self, left, right)
+
+
 DifferentialWheels_swigregister = _controller.DifferentialWheels_swigregister
 DifferentialWheels_swigregister(DifferentialWheels)
+
 
 class Supervisor(Robot):
     __swig_setmethods__ = {}
@@ -2903,6 +3170,7 @@ class Supervisor(Robot):
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
+
     __swig_destroy__ = _controller.delete_Supervisor
     __del__ = lambda self: None
 
@@ -2940,7 +3208,8 @@ class Supervisor(Robot):
         return _controller.Supervisor_animationStopRecording(self)
 
     def movieStartRecording(self, file, width, height, codec, quality, acceleration, caption):
-        return _controller.Supervisor_movieStartRecording(self, file, width, height, codec, quality, acceleration, caption)
+        return _controller.Supervisor_movieStartRecording(self, file, width, height, codec, quality, acceleration,
+                                                          caption)
 
     def movieStopRecording(self):
         return _controller.Supervisor_movieStopRecording(self)
@@ -3004,6 +3273,7 @@ class Supervisor(Robot):
 
     def getMovieStatus(self):
         return _controller.Supervisor_getMovieStatus(self)
+
     MOVIE_READY = _controller.Supervisor_MOVIE_READY
     MOVIE_RECORDING = _controller.Supervisor_MOVIE_RECORDING
     MOVIE_SAVING = _controller.Supervisor_MOVIE_SAVING
@@ -3013,9 +3283,9 @@ class Supervisor(Robot):
 
     def movieGetStatus(self):
         return _controller.Supervisor_movieGetStatus(self)
+
+
 Supervisor_swigregister = _controller.Supervisor_swigregister
 Supervisor_swigregister(Supervisor)
 
 # This file is compatible with both classic and new-style classes.
-
-

@@ -7,7 +7,6 @@
 from keyboard_reader import KeyboardReader
 
 from lib.webots_lib.wbc_controller import Controller
-from lib.youbot_control.enum import Height, Orientation
 
 from lib.youbot_control.youBot import YouBot
 

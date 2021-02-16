@@ -4,8 +4,8 @@
 #  * Miguel L. Rodrigues
 #  * All rights reserved
 
-from lib.youbot_control.tiny_math import bound
 from lib.webots_lib.wbc_controller import Controller
+from lib.youbot_control.tiny_math import bound
 
 
 class Gripper:

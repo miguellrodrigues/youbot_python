@@ -56,7 +56,7 @@ class Matrix:
         if is_random:
             for i in range(rows):
                 for j in range(cols):
-                    self.data[i][j] = random_double(.001, -.001)
+                    self.data[i][j] = random_double(-.001, .001)
         else:
             for i in range(rows):
                 for j in range(cols):
@@ -98,8 +98,6 @@ class Matrix:
                 self.set_value(i, j, self.get_value(i, j) - matrix.get_value(i, j))
 
     def multiply(self, mx):
-        matrix = Matrix(self.rows, mx.cols)
-
         for i in range(self.rows):
             for j in range(mx.cols):
                 aux = .0
@@ -107,9 +105,9 @@ class Matrix:
                 for k in range(mx.rows):
                     aux += self.get_value(i, k) * mx.get_value(k, j)
 
-                matrix.set_value(i, j, aux)
+                self.set_value(i, j, aux)
 
-        return matrix
+        return self
 
     def scalar(self, value):
         for i in range(self.rows):
@@ -128,6 +126,18 @@ class Matrix:
             array[i] = self.get_value(i, 0)
 
         return array
+
+    def assign(self, matrix_array):
+        rows = len(matrix_array)
+        cols = len(matrix_array[0])
+
+        if rows != self.rows or cols != self.cols:
+            print('bad argument')
+            return
+
+        for i in range(rows):
+            for j in range(cols):
+                self.set_value(i, j, matrix_array[i][j])
 
     def print(self):
         for i in range(self.rows):

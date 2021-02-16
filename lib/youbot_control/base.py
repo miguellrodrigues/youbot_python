@@ -9,6 +9,7 @@ from lib.webots_lib.wbc_controller import Controller
 
 class Base:
     SPEED = 4.0
+
     # DISTANCE_TOLERANCE = .001
     # ANGLE_TOLERANCE = .001
 

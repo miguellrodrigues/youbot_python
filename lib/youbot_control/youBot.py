@@ -6,11 +6,10 @@
 
 from lib.utils.vector import Vector, normalize_radian
 from lib.webots_lib.wbc_controller import Controller
-
 from lib.youbot_control.arm import Arm
+from lib.youbot_control.base import Base
 from lib.youbot_control.enum import Height
 from lib.youbot_control.gripper import Gripper
-from lib.youbot_control.base import Base
 
 
 class YouBot:
@@ -43,7 +42,7 @@ class YouBot:
 
     def arm_reset(self):
         self._arm.reset()
-        
+
     def set_arm_height(self, height):
         self._arm.set_height(height)
 
@@ -53,22 +52,22 @@ class YouBot:
 
     def increase_arm_height(self):
         self._arm.increase_height()
-    
+
     def decrease_arm_height(self):
         self._arm.decrease_height()
-    
+
     def set_arm_orientation(self, orientation):
         self._arm.set_orientation(orientation)
-    
+
     def increase_arm_orientation(self):
         self._arm.increase_orientation()
-    
+
     def decrease_arm_orientation(self):
         self._arm.decrease_orientation()
-        
+
     def grip(self):
         self._gripper.grip()
-    
+
     def grip_release(self):
         self._gripper.release()
 
@@ -77,22 +76,22 @@ class YouBot:
 
     def forwards(self):
         self._base.forwards()
-    
+
     def backwards(self):
         self._base.backwards()
-    
+
     def turn_left(self):
         self._base.turn_left()
-        
+
     def turn_right(self):
         self._base.turn_right()
-        
+
     def strafe_left(self):
         self._base.strafe_left()
-        
+
     def strafe_right(self):
         self._base.strafe_right()
-        
+
     def base_reset(self):
         self._base.reset()
 

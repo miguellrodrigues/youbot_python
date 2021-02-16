@@ -10,7 +10,6 @@ from random import uniform
 from lib.utils.pid import Pid
 from lib.utils.vector import Vector, normalize_radian
 from lib.webots_lib.wbc_controller import Controller
-from lib.youbot_control.enum import Height
 from lib.youbot_control.youBot import YouBot
 
 cont = Controller(14, True)
