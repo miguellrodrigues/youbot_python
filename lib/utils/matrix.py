@@ -23,29 +23,6 @@ def array_to_matrix(array):
     return matrix
 
 
-def hadamard(mx, my):
-    matrix = Matrix(mx.rows, mx.cols)
-
-    for i in range(mx.rows):
-        for j in range(mx.cols):
-            matrix.set_value(i, j, mx.get_value(i, j) * my.get_value(i, j))
-
-
-def multiply(mx, my):
-    matrix = Matrix(mx.rows, my.cols)
-
-    for i in range(mx.rows):
-        for j in range(my.cols):
-            aux = .0
-
-            for k in range(my.rows):
-                aux += mx.get_value(i, k) * my.get_value(k, j)
-
-            matrix.set_value(i, j, aux)
-
-    return matrix
-
-
 class Matrix:
     def __init__(self, rows, cols, is_random=False):
         self.rows = rows
@@ -82,22 +59,18 @@ class Matrix:
 
         return matrix
 
-    def hadamard(self, matrix):
-        for i in range(self.rows):
-            for j in range(self.cols):
-                self.set_value(i, j, self.get_value(i, j) * matrix.get_value(i, j))
+    def hadamard(self, mx):
+        matrix = Matrix(self.rows, self.cols)
 
-    def add(self, matrix):
         for i in range(self.rows):
             for j in range(self.cols):
-                self.set_value(i, j, self.get_value(i, j) + matrix.get_value(i, j))
+                matrix.set_value(i, j, self.get_value(i, j) * mx.get_value(i, j))
 
-    def subtract(self, matrix):
-        for i in range(self.rows):
-            for j in range(self.cols):
-                self.set_value(i, j, self.get_value(i, j) - matrix.get_value(i, j))
+        return matrix
 
     def multiply(self, mx):
+        matrix = Matrix(self.rows, mx.cols)
+
         for i in range(self.rows):
             for j in range(mx.cols):
                 aux = .0
@@ -105,9 +78,27 @@ class Matrix:
                 for k in range(mx.rows):
                     aux += self.get_value(i, k) * mx.get_value(k, j)
 
-                self.set_value(i, j, aux)
+                matrix.set_value(i, j, aux)
 
-        return self
+        return matrix
+
+    def add(self, mx):
+        matrix = Matrix(self.rows, self.cols)
+
+        for i in range(self.rows):
+            for j in range(self.cols):
+                matrix.set_value(i, j, self.get_value(i, j) + mx.get_value(i, j))
+
+        return matrix
+
+    def subtract(self, mx):
+        matrix = Matrix(self.rows, self.cols)
+
+        for i in range(self.rows):
+            for j in range(self.cols):
+                matrix.set_value(i, j, self.get_value(i, j) - mx.get_value(i, j))
+
+        return matrix
 
     def scalar(self, value):
         for i in range(self.rows):

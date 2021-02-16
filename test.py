@@ -6,7 +6,7 @@
 
 from math import *
 
-from lib.utils.matrix import Matrix, multiply
+from lib.utils.matrix import Matrix
 
 matrix_r = Matrix(3, 3)
 
@@ -60,9 +60,9 @@ r_x.assign([
     [0, sin(phi), cos(phi)]
 ])
 
-result = multiply(r_x.transpose(), matrix_r)
+result = r_x.transpose().multiply(matrix_r)
 
 angle = atan2(result.get_value(1, 0), result.get_value(0, 0))
 
-print(degrees(angle))
+print(angle)
 
