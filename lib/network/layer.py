@@ -8,9 +8,9 @@ from lib.utils.matrix import Matrix
 
 
 class Layer:
-    VALUE = 0
-    ACTIVATED = 1
-    DERIVED = 2
+    VALUES = 0
+    ACTIVATED_VALUES = 1
+    DERIVED_VALUES = 2
 
     def __init__(self, neurons_size):
         self.neurons_size = neurons_size
@@ -26,13 +26,13 @@ class Layer:
     def convert_to_matrix(self, convert_type):
         matrix = Matrix(self.neurons_size, 1)
 
-        if convert_type == self.VALUE:
+        if convert_type == self.VALUES:
             for i in range(self.neurons_size):
                 matrix.set_value(i, 0, self.neurons[i].value)
-        elif convert_type == self.ACTIVATED:
+        elif convert_type == self.ACTIVATED_VALUES:
             for i in range(self.neurons_size):
                 matrix.set_value(i, 0, self.neurons[i].activated_value)
-        elif convert_type == self.DERIVED:
+        elif convert_type == self.DERIVED_VALUES:
             for i in range(self.neurons_size):
                 matrix.set_value(i, 0, self.neurons[i].derived_value)
 
