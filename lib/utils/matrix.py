@@ -39,6 +39,9 @@ class Matrix:
                 for j in range(cols):
                     self.data[i][j] = .0
 
+    def assign(self, matrix):
+        self.data = matrix.data
+
     def set_value(self, row, column, value):
         self.data[row][column] = value
 
