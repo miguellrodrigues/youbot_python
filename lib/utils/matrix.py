@@ -5,19 +5,19 @@
 #  * All rights reserved
 
 from datetime import datetime
-from random import seed, uniform
+from random import seed, uniform, random, SystemRandom
 
 seed(datetime.timestamp(datetime.now()))
 
 
 def random_double(minimum, maximum):
-    return uniform(minimum, maximum)
+    return SystemRandom().uniform(minimum, maximum)
 
 
 def array_to_matrix(array):
     matrix = Matrix(len(array), 1)
 
-    for i in range(matrix.rows):
+    for i in range(len(array)):
         matrix.set_value(i, 0, array[i])
 
     return matrix
@@ -28,19 +28,16 @@ class Matrix:
         self.rows = rows
         self.cols = cols
 
-        self.data = [[.0] * cols for _i in range(rows)]
+        self.data = [[0.0] * cols for _i in range(rows)]
 
         if is_random:
             for i in range(rows):
                 for j in range(cols):
-                    self.data[i][j] = random_double(-.001, .001)
+                    self.data[i][j] = random_double(-0.801, 0.801)
         else:
             for i in range(rows):
                 for j in range(cols):
                     self.data[i][j] = .0
-
-    def assign(self, matrix):
-        self.data = matrix.data
 
     def set_value(self, row, column, value):
         self.data[row][column] = value
@@ -63,10 +60,10 @@ class Matrix:
         return matrix
 
     def hadamard(self, mx):
-        matrix = Matrix(self.rows, self.cols)
+        matrix = Matrix(mx.rows, mx.cols)
 
-        for i in range(self.rows):
-            for j in range(self.cols):
+        for i in range(mx.rows):
+            for j in range(mx.cols):
                 matrix.set_value(i, j, self.get_value(i, j) * mx.get_value(i, j))
 
         return matrix
@@ -121,7 +118,7 @@ class Matrix:
 
         return array
 
-    def assign(self, matrix_array):
+    def assign_matrix(self, matrix_array):
         rows = len(matrix_array)
         cols = len(matrix_array[0])
 
@@ -140,3 +137,8 @@ class Matrix:
 
                 if j == self.cols - 1:
                     print('')
+
+    def copy(self, matrix):
+        for i in range(matrix.rows):
+            for j in range(matrix.cols):
+                self.set_value(i, j, matrix.get_value(i, j))

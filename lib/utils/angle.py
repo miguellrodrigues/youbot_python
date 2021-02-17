@@ -12,7 +12,7 @@ phi = radians(-90)
 
 r_x = Matrix(3, 3)
 
-r_x.assign([
+r_x.asign_matrix([
     [1, 0, 0],
     [0, cos(phi), -sin(phi)],
     [0, sin(phi), cos(phi)]
@@ -25,7 +25,7 @@ def calculate_matrix_r(data):
     cos_theta = cos(data[3])
     sin_theta = sin(data[3])
 
-    matrix_r.assign([
+    matrix_r.assign_matrix([
         [(pow(data[0], 2) * (1 - cos_theta) + cos_theta),
          ((data[0] * data[1]) * (1 - cos_theta) - (data[2] * sin_theta)),
          ((data[0] * data[2]) * (1 - cos_theta) + (data[1] * sin_theta))],

@@ -3,7 +3,7 @@
 #  * Last modified 17/02/2021 13:28
 #  * Miguel L. Rodrigues
 #  * All rights reserved
-from math import tanh
+from math import tanh, exp
 
 
 def sigmoid_activation(value):
@@ -11,7 +11,7 @@ def sigmoid_activation(value):
 
 
 def sigmoid_derived(value):
-    return 1 / pow(1 + abs(value), 2)
+    return 1 / pow((1 + abs(value)), 2.0)
 
 
 class Neuron:
@@ -26,6 +26,8 @@ class Neuron:
         self.activated_value = .0
         self.derived_value = .0
 
+        self.set_value(value)
+
     def set_value(self, value):
         self.value = value
 
@@ -33,27 +35,16 @@ class Neuron:
         self.derive()
 
     def activate(self):
-        if self.activation_type == self.RELU:
-            if self.value > 0:
-                self.activated_value = self.value
-            else:
-                self.activated_value = 0
-        elif self.activation_type == self.SIGM:
-            self.activated_value = sigmoid_activation(self.value)
-        elif self.activation_type == self.TANH:
-            self.activated_value = tanh(self.value)
-        else:
-            self.activated_value = sigmoid_activation(self.value)
+        self.activated_value = sigmoid_activation(self.value)
 
     def derive(self):
-        if self.activation_type == self.RELU:
-            if self.activated_value > 0:
-                self.derived_value = 1
-            else:
-                self.derived_value = 0
-        elif self.activation_type == self.SIGM:
-            self.derived_value = sigmoid_derived(self.activated_value)
-        elif self.activation_type == self.TANH:
-            self.derived_value = (1 - pow(tanh(self.activated_value), 2))
-        else:
-            self.derived_value = sigmoid_derived(self.activated_value)
+        self.derived_value = sigmoid_derived(self.activated_value)
+
+    def get_value(self):
+        return self.value
+
+    def get_activated_value(self):
+        return self.activated_value
+
+    def get_derived_value(self):
+        return self.derived_value

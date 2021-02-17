@@ -17,23 +17,23 @@ class Layer:
 
         self.neurons = []
 
-        for i in range(neurons_size):
-            self.neurons.append(Neuron(.000, Neuron.SIGM))
+        for i in range(self.neurons_size):
+            self.neurons.append(Neuron(0.000, Neuron.SIGM))
 
     def set_neuron_value(self, index, value):
-        self.neurons[index] = value
+        self.neurons[index].set_value(value)
 
     def convert_to_matrix(self, convert_type):
         matrix = Matrix(self.neurons_size, 1)
 
         if convert_type == self.VALUES:
             for i in range(self.neurons_size):
-                matrix.set_value(i, 0, self.neurons[i].value)
+                matrix.set_value(i, 0, self.neurons[i].get_value())
         elif convert_type == self.ACTIVATED_VALUES:
             for i in range(self.neurons_size):
-                matrix.set_value(i, 0, self.neurons[i].activated_value)
+                matrix.set_value(i, 0, self.neurons[i].get_activated_value())
         elif convert_type == self.DERIVED_VALUES:
             for i in range(self.neurons_size):
-                matrix.set_value(i, 0, self.neurons[i].derived_value)
+                matrix.set_value(i, 0, self.neurons[i].get_derived_value())
 
         return matrix
