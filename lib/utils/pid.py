@@ -29,7 +29,7 @@ class Pid:
 
         proportional = self.kp * error
         integral = self.ki * self.accumulator
-        derivative = ((error + self.old_error) / 2.0) * time
+        derivative = self.kd * (error - self.old_error) / time
 
         out = proportional + integral + derivative
 

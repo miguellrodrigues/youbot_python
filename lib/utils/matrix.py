@@ -5,13 +5,15 @@
 #  * All rights reserved
 
 from datetime import datetime
-from random import seed, uniform, random, SystemRandom
+from random import seed, SystemRandom
 
-seed(datetime.timestamp(datetime.now()))
+sr = SystemRandom()
+
+sr.seed(datetime.timestamp(datetime.now()))
 
 
 def random_double(minimum, maximum):
-    return SystemRandom().uniform(minimum, maximum)
+    return sr.uniform(minimum, maximum)
 
 
 def array_to_matrix(array):
@@ -33,7 +35,7 @@ class Matrix:
         if is_random:
             for i in range(rows):
                 for j in range(cols):
-                    self.data[i][j] = random_double(-0.801, 0.801)
+                    self.data[i][j] = random_double(-1.0, 1.0)
         else:
             for i in range(rows):
                 for j in range(cols):
