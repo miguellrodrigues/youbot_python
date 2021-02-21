@@ -3,8 +3,6 @@
 #  * Last modified 17/02/2021 13:28
 #  * Miguel L. Rodrigues
 #  * All rights reserved
-from math import tanh, exp
-
 
 def sigmoid_activation(value):
     return value / (1 + abs(value))

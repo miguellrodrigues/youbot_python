@@ -18,11 +18,15 @@ class Network:
         self.errors = []
         self.derived_errors = []
 
-        self.bias = 0.1
+        self.bias = 0.01
 
         self.global_error = 0.0
 
-        self.learning_rate = 0.05
+        self.learning_rate = 0.01
+
+        self.output_index = self.topology_size - 1
+
+        topology[0] = topology[0] + topology[self.topology_size - 1]
 
         for i in range(self.topology_size):
             self.layers.append(Layer(topology[i]))
@@ -40,6 +44,16 @@ class Network:
         for i in range(input_matrix.rows):
             self.layers[0].set_neuron_value(i, input_matrix.get_value(i, 0))
 
+    def set_recurrent_input(self):
+        output = self.layers[self.output_index].convert_to_matrix(Layer.ACTIVATED_VALUES)
+
+        i = self.topology[0] - self.topology[self.output_index]
+
+        while i < self.topology[0]:
+            self.layers[0].set_neuron_value(i, output.get_value(i - self.topology[self.output_index], 0))
+
+            i += 1
+
     def feed_forward(self):
         for i in range(self.topology_size - 1):
             if i != 0:
@@ -53,6 +67,8 @@ class Network:
 
             for j in range(r.rows):
                 self.layers[i + 1].set_neuron_value(j, (r.get_value(j, 0) + self.bias))
+
+        self.set_recurrent_input()
 
     def set_errors(self, meta: Matrix):
         if meta.rows == 0:
@@ -176,4 +192,4 @@ class Network:
         self.set_current_input(input_data)
         self.feed_forward()
 
-        return self.layers[self.topology_size - 1].convert_to_matrix(Layer.ACTIVATED_VALUES)
+        return self.layers[self.output_index].convert_to_matrix(Layer.ACTIVATED_VALUES)
