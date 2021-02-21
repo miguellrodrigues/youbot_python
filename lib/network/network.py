@@ -22,7 +22,7 @@ class Network:
 
         self.global_error = 0.0
 
-        self.learning_rate = 0.01
+        self.learning_rate = 0.0001
 
         self.output_index = self.topology_size - 1
 

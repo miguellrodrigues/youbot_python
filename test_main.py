@@ -34,7 +34,7 @@ while cont.step() != -1:
 
     angle_error = normalize_radian(angle + theta)
 
-    if 0 < time < 5:
+    if 0 < time < 10:
         # angle_error = normalize_radian(box_rotation[3] - angle)
 
         out = angle_pid.compute(angle_error, .05)
@@ -45,9 +45,7 @@ while cont.step() != -1:
     else:
         out = network.predict(array_to_matrix([angle_error])).get_value(0, 0)
 
-        print(out)
-
-        x = out * 6
+        x = out * 10
 
         youBot.set_wheels_speed([-x, x, -x, x])
 
