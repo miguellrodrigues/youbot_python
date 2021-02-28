@@ -4,7 +4,7 @@
 #  * Miguel L. Rodrigues
 #  * All rights reserved
 from lib.network.layer import Layer
-from lib.utils.matrix import Matrix
+from lib.utils.matrix import Matrix, array_to_matrix
 
 
 class Network:
@@ -181,15 +181,15 @@ class Network:
         for matrix in reversed(weights):
             self.weight_matrices.append(matrix)
 
-    def train(self, input_data: Matrix, meta: Matrix):
-        self.set_current_input(input_data)
+    def train(self, input_data, meta):
+        self.set_current_input(array_to_matrix(input_data))
 
         self.feed_forward()
-        self.set_errors(meta)
+        self.set_errors(array_to_matrix(meta))
         self.back_propagation()
 
-    def predict(self, input_data: Matrix):
-        self.set_current_input(input_data)
+    def predict(self, input_data):
+        self.set_current_input(array_to_matrix(input_data))
         self.feed_forward()
 
         return self.layers[self.output_index].convert_to_matrix(Layer.ACTIVATED_VALUES)

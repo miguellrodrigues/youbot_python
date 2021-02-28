@@ -80,7 +80,7 @@ while cont.step() != -1:
         if rest > pi / 4.0:
             orientation = -((pi / 2.0) - rest)
         else:
-            orientation = rest
+            orientation = -rest
 
         youBot.pickup(orientation)
 

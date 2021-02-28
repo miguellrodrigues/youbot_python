@@ -3,14 +3,28 @@
 #  * Last modified 16/02/2021 14:03
 #  * Miguel L. Rodrigues
 #  * All rights reserved
+
+from math import degrees, cos, sin
+
 from lib.network.network import Network
 from lib.utils.angle import calculate_angle
-from lib.utils.matrix import array_to_matrix
+from lib.utils.fuzzy_set import FuzzySet, de_fuzzy
 from lib.utils.pid import Pid
 from lib.utils.vector import normalize_radian, Vector
 from lib.webots_lib.wbc_controller import Controller
 from lib.youbot_control.youBot import YouBot
 
+negative_error = FuzzySet(FuzzySet.TRAPEZOIDAL, [-180, -90, -5, -.0001])
+center_error = FuzzySet(FuzzySet.TRIANGULAR, [-10, 0, 10])
+positive_error = FuzzySet(FuzzySet.TRAPEZOIDAL, [.0001, 5, 90, 180])
+
+low_output = FuzzySet(FuzzySet.TRIANGULAR, [-15, -30, -5])
+medium_output = FuzzySet(FuzzySet.TRIANGULAR, [-30, .0001, 30])
+high_output = FuzzySet(FuzzySet.TRIANGULAR, [5, 30, 15])
+
+# if error is low, output is low
+# if error is medium output is medium
+# if error is high output is high
 
 cont = Controller(14, True)
 youBot = YouBot(cont)
@@ -18,6 +32,12 @@ youBot = YouBot(cont)
 angle_pid = Pid(8.0, 0.07, 2.0, 5.0, 1.0)
 
 network = Network([1, 16, 32, 1])
+
+radius = .5
+ang = 1.57
+comp = .01
+
+center = youBot.get_position()
 
 while cont.step() != -1:
     time = cont.get_supervisor().getTime()
@@ -34,18 +54,29 @@ while cont.step() != -1:
 
     angle_error = normalize_radian(angle + theta)
 
-    if 0 < time < 10:
-        # angle_error = normalize_radian(box_rotation[3] - angle)
+    rules = [
+        negative_error.calculate_pertinence(degrees(angle_error)),
+        center_error.calculate_pertinence(degrees(angle_error)),
+        positive_error.calculate_pertinence(degrees(angle_error))
+    ]
 
-        out = angle_pid.compute(angle_error, .05)
+    output = de_fuzzy([low_output.values, medium_output.values, high_output.values], [rules[0], rules[1], rules[2]])
 
-        youBot.set_wheels_speed([-out, out, -out, out])
+    youBot.set_wheels_speed([-output, output, -output, output])
 
-        network.train(array_to_matrix([angle_error]), array_to_matrix([out]))
-    else:
-        out = network.predict(array_to_matrix([angle_error])).get_value(0, 0)
+    # print("Output -> {} | Error -> {}".format(output, degrees(angle_error)))
 
-        x = out * 10
+    ang += comp
 
-        youBot.set_wheels_speed([-x, x, -x, x])
+    if ang > 3.14:
+        comp = -.01
+    elif ang < -3.14:
+        comp = 0.01
+
+    center.add(Vector([cos(ang), .0, sin(ang)]))
+
+    cont.set_object_position("box", [center.x, center.y, center.z])
+
+    center.subtract(Vector([cos(ang), .0, sin(ang)]))
+
 
