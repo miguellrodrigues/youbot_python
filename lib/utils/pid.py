@@ -19,6 +19,11 @@ class Pid:
 
         self.out = .0
 
+    def update_weights(self, weights):
+        self.kp = weights[0]
+        self.ki = weights[1]
+        self.kd = weights[2]
+
     def compute(self, error, time):
         self.old_error = error
         self.error = error
