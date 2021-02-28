@@ -66,7 +66,7 @@ while cont.step() != -1:
     old_error = error
     error = angle_error
 
-    derived_error = (error + old_error) / .05
+    derived_error = (error + old_error) / .0014
 
     rules = [
         high_negative_error.calculate_pertinence(angle_error),
@@ -81,7 +81,7 @@ while cont.step() != -1:
         low_negative_error.calculate_pertinence(derived_error),
         center_error.calculate_pertinence(derived_error),
         low_positive_error.calculate_pertinence(derived_error),
-        high_positive_error.complement_pertinence(derived_error)
+        high_positive_error.calculate_pertinence(derived_error)
     ]
 
     kp_output = de_fuzzy([
@@ -114,21 +114,21 @@ while cont.step() != -1:
 
     angle_pid.update_weights([kp_output, ki_output, .2])
 
-    out = angle_pid.compute(angle_error, .05)
+    out = angle_pid.compute(angle_error, .0014)
 
     youBot.set_wheels_speed([-out, out, -out, out])
 
     print("Kp -> {} | Ki -> {} | Error -> {}".format(kp_output, ki_output, angle_error))
 
-    ang += comp
-
-    if ang > 3.14:
-        comp = -.001
-    elif ang < -3.14:
-        comp = .001
-
-    center.add(Vector([cos(ang), .0, sin(ang)]))
-
-    cont.set_object_position("box", [center.x, center.y, center.z])
-
-    center.subtract(Vector([cos(ang), .0, sin(ang)]))
+    # ang += comp
+    #
+    # if ang > 3.14:
+    #     comp = -.001
+    # elif ang < -3.14:
+    #     comp = .001
+    #
+    # center.add(Vector([cos(ang), .0, sin(ang)]))
+    #
+    # cont.set_object_position("box", [center.x, center.y, center.z])
+    #
+    # center.subtract(Vector([cos(ang), .0, sin(ang)]))
