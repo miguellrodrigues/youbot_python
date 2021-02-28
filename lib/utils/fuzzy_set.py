@@ -86,7 +86,7 @@ class FuzzySet:
         return min(self.calculate_pertinence(value), fuzzy_set.calculate_pertinence(value))
 
     def complement_pertinence(self, value):
-        1 - self.calculate_pertinence(value)
+        return 1 - self.calculate_pertinence(value)
 
     def equal(self, fuzzy_set):
         return self.calculate_pertinence(self.values[0]) == fuzzy_set.calculate_pertinence(fuzzy_set.values[0])
