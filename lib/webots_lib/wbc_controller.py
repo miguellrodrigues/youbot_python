@@ -4,8 +4,7 @@
 #  * Miguel L. Rodrigues
 #  * All rights reserved
 
-from lib.webots_lib.controller import Supervisor, Node, Camera
-from typing import cast
+from lib.webots_lib.controller import Supervisor, Node
 
 
 class Controller:

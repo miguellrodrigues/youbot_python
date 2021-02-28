@@ -6,6 +6,7 @@
 
 from math import exp
 
+
 def cartesian_product_pertinence(fuzzy_sets, values):
     if len(fuzzy_sets) != len(values):
         print("cartesian_product_pertinence, bad arguments")
@@ -89,4 +90,3 @@ class FuzzySet:
 
     def equal(self, fuzzy_set):
         return self.calculate_pertinence(self.values[0]) == fuzzy_set.calculate_pertinence(fuzzy_set.values[0])
-

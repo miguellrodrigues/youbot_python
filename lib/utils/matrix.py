@@ -5,7 +5,7 @@
 #  * All rights reserved
 
 from datetime import datetime
-from random import seed, SystemRandom
+from random import SystemRandom
 
 sr = SystemRandom()
 
