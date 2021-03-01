@@ -4,8 +4,7 @@
 #  * Miguel L. Rodrigues
 #  * All rights reserved
 
-# from math import degrees, cos, sin
-from math import pi, radians, cos, sin
+from math import pi, radians
 
 from lib.utils.angle import calculate_angle
 from lib.utils.fuzzy_set import FuzzySet, de_fuzzy
@@ -26,11 +25,16 @@ kp_normal_output = FuzzySet(FuzzySet.TRIANGULAR, [2.0, 7.1, 11.0])
 kp_high_output = FuzzySet(FuzzySet.TRIANGULAR, [5.2, 5.6, 9.4])
 kp_very_high_output = FuzzySet(FuzzySet.TRIANGULAR, [5.4, 9.6, 14.8])
 
+ki_very_low_error = FuzzySet(FuzzySet.TRIANGULAR, [-1300, -1050, -800])
+ki_low_error = FuzzySet(FuzzySet.TRIANGULAR, [-1300, -800, 50])
+ki_medium_error = FuzzySet(FuzzySet.TRIANGULAR, [-800, 50, -700])
+ki_high_error = FuzzySet(FuzzySet.TRIANGULAR, [50, 700, 1200])
+
+
 ki_very_low_output = FuzzySet(FuzzySet.TRIANGULAR, [-.001, .005, .001])
 ki_low_output = FuzzySet(FuzzySet.TRIANGULAR, [-.004, .008, .004])
-ki_normal_output = FuzzySet(FuzzySet.TRIANGULAR, [-.001, .0005, .001])
+ki_medium_output = FuzzySet(FuzzySet.TRIANGULAR, [-.001, .0005, .001])
 ki_high_output = FuzzySet(FuzzySet.TRIANGULAR, [-.004, .008, .004])
-ki_very_high_output = FuzzySet(FuzzySet.TRIANGULAR, [-.001, .005, .001])
 
 # if error is low, output is low
 # if error is medium output is medium
@@ -41,16 +45,16 @@ youBot = YouBot(cont)
 
 radius = .5
 ang = 1.57
-comp = .01
+comp = .001
 
-center = youBot.get_position()
-
-angle_pid = Pid(.1, 0.05, 1.0, 16.0, .01)
+angle_pid = Pid(.1, 0.05, 1.0, 32.0, .01)
 
 error = .0
 old_error = .0
 
 while cont.step() != -1:
+    center = youBot.get_position()
+    
     youBot_position = youBot.get_position()
     box_position = Vector(cont.get_object_position("box"))
 
@@ -77,11 +81,10 @@ while cont.step() != -1:
     ]
 
     derived_rules = [
-        high_negative_error.complement_pertinence(derived_error),
-        low_negative_error.calculate_pertinence(derived_error),
-        center_error.calculate_pertinence(derived_error),
-        low_positive_error.calculate_pertinence(derived_error),
-        high_positive_error.calculate_pertinence(derived_error)
+        ki_very_low_error.complement_pertinence(derived_error),
+        ki_low_error.calculate_pertinence(derived_error),
+        ki_medium_error.calculate_pertinence(derived_error),
+        ki_high_error.calculate_pertinence(derived_error)
     ]
 
     kp_output = de_fuzzy([
@@ -101,15 +104,13 @@ while cont.step() != -1:
     ki_output = de_fuzzy([
         ki_very_low_output.values,
         ki_low_output.values,
-        ki_normal_output.values,
+        ki_medium_output.values,
         ki_high_output.values,
-        ki_very_high_output.values
     ], [
         derived_rules[0],
         derived_rules[1],
         derived_rules[2],
-        derived_rules[3],
-        derived_rules[4]
+        derived_rules[3]
     ])
 
     angle_pid.update_weights([kp_output, ki_output, .2])
@@ -118,17 +119,13 @@ while cont.step() != -1:
 
     youBot.set_wheels_speed([-out, out, -out, out])
 
-    print("Kp -> {} | Ki -> {} | Error -> {}".format(kp_output, ki_output, angle_error))
+    ang += comp
 
-    # ang += comp
-    #
-    # if ang > 3.14:
-    #     comp = -.001
-    # elif ang < -3.14:
-    #     comp = .001
-    #
-    # center.add(Vector([cos(ang), .0, sin(ang)]))
-    #
-    # cont.set_object_position("box", [center.x, center.y, center.z])
-    #
-    # center.subtract(Vector([cos(ang), .0, sin(ang)]))
+    if ang > 3.14:
+        comp = -.001
+    elif ang < -3.14:
+        comp = .001
+    
+    print("Error {} | D_Error {} | Kp {} | Ki {}".format(error, derived_error, kp_output, ki_output))
+
+
