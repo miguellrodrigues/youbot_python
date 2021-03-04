@@ -61,7 +61,7 @@ while cont.step() != -1:
     youBot_rotation = cont.get_object_rotation("youBot")
     box_rotation = cont.get_object_rotation("box")
 
-    angle = calculate_angle(youBot_rotation)
+    angle = calculate_angle(cont, youBot_rotation)
 
     theta = youBot_position.differenceAngle(box_position)
 
@@ -119,13 +119,18 @@ while cont.step() != -1:
 
     youBot.set_wheels_speed([-out, out, -out, out])
 
-    ang += comp
+    # ang += comp
+    #
+    # if ang > 3.14:
+    #     comp = -.001
+    # elif ang < -3.14:
+    #     comp = .001
+    #
+    # center.add(Vector([cos(ang), .0, sin(ang)]))
+    #
+    # cont.set_object_position("box", [center.x, center.y, center.z])
+    #
+    # center.subtract(Vector([cos(ang), .0, sin(ang)]))
 
-    if ang > 3.14:
-        comp = -.001
-    elif ang < -3.14:
-        comp = .001
-    
-    print("Error {} | D_Error {} | Kp {} | Ki {}".format(error, derived_error, kp_output, ki_output))
 
 

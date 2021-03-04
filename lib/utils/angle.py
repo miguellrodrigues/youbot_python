@@ -43,6 +43,16 @@ def calculate_matrix_r(data):
 def calculate_angle(process_variable):
     matrix_r = calculate_matrix_r(process_variable)
 
+    # matrix_r = Matrix(3, 3)
+    #
+    # o = controller.get_object_orientation("youBot")
+    #
+    # d = [[o[0] ,o[1], o[2]],
+    #      [o[3], o[4], o[5]],
+    #      [o[6], o[7], o[8]]]
+    #
+    # matrix_r.assign_matrix(d)
+
     result = r_x.transpose().multiply(matrix_r)
 
     angle = atan2(result.get_value(1, 0), result.get_value(0, 0))

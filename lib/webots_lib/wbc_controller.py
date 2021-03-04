@@ -76,6 +76,11 @@ class Controller:
     def get_motors(self):
         return self.get_devices_by_type(Node.ROTATIONAL_MOTOR)
 
+    def get_object_orientation(self, node_def):
+        object_node = self.supervisor.getFromDef(node_def)
+
+        return object_node.getOrientation()
+
     def get_object_position(self, node_def):
         object_node = self.supervisor.getFromDef(node_def)
 
