@@ -128,3 +128,4 @@ class YouBot:
 
     def getOrientation(self):
         return self.controller.get_object_rotation(self.node_def)
+
