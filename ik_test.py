@@ -3,6 +3,7 @@
 #  * Last modified 04/03/2021 14:50
 #  * Miguel L. Rodrigues
 #  * All rights reserved
+
 from lib.utils.pid import Pid
 from lib.utils.vector import Vector
 from lib.webots_lib.wbc_controller import Controller
@@ -12,11 +13,12 @@ from math import *
 cont = Controller(14, True)
 youBot = YouBot(cont)
 
-
 upper_length = .155
-lower_length = .135
+lower_length = .216
 
 hyp = sqrt(lower_length ** 2 + upper_length ** 2)
+
+print(hyp)
 
 # base x = -1.15326
 # base y = 0.21498
@@ -47,10 +49,9 @@ while cont.step() != -1:
 
     theta = atan2(z, x)
 
-    z2 = x / cos(theta)
+    # z2 = x / cos(theta)
+    z2 = .26585898517823314
     x1 = sqrt(x ** 2 + z ** 2)
-
-    # z2 = 0.15
 
     alpha = -asin(z / x1)
 
@@ -62,5 +63,7 @@ while cont.step() != -1:
 
     elbow_angle = -pi + (angle_a + angle_b)
 
-    youBot.set_heights([1, 2, 3], [-angle_a, -1.57 - elbow_angle, -(pi / 2.0) - alpha])
+    youBot._arm.ik(0.1, 0.1, 0.0)
+
+    # youBot.set_heights([1, 2, 3], [-angle_a, -1.57 - elbow_angle, -(pi / 2.0) - alpha])
 

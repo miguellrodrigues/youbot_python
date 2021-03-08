@@ -1,4 +1,4 @@
-def bound(v, a, b):
+def bound(v, a: float, b: float):
     if v > b:
         return b
     if v < a:

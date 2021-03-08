@@ -3,6 +3,7 @@
 #  * Last modified 10/02/2021 20:11
 #  * Miguel L. Rodrigues
 #  * All rights reserved
+from typing import List
 
 from lib.webots_lib.wbc_controller import Controller
 
@@ -30,11 +31,11 @@ class Base:
         for i in range(4):
             self.wheels.append(self.controller.get_device_by_name("wheel{}".format(i + 1)))
 
-    def set_wheel_speed(self, index, speed):
+    def set_wheel_speed(self, index, speed: float):
         self.wheels[index].setPosition(float('inf'))
         self.wheels[index].setVelocity(speed)
 
-    def set_wheels_speed(self, speed):
+    def set_wheels_speed(self, speed: List[float]):
         for i in range(len(self.wheels)):
             self.set_wheel_speed(i, speed[i])
 

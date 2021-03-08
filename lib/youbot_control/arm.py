@@ -5,6 +5,7 @@
 #  * All rights reserved
 
 from math import pi, sqrt, asin, acos, atan2, sin, cos, radians
+from typing import List
 
 from lib.webots_lib.wbc_controller import Controller
 from lib.youbot_control.enum import Height, Orientation
@@ -26,8 +27,8 @@ class Arm:
         self.controller = controller
         self.elements = {}
 
-        self.current_height = None
-        self.current_orientation = None
+        self.current_height = Height.ARM_MAX_HEIGHT - 1
+        self.current_orientation = Orientation.ARM_BACK_LEFT - 1
 
         self.init()
 
@@ -43,7 +44,7 @@ class Arm:
         self.set_height(Height.ARM_RESET)
         self.set_orientation(Orientation.ARM_FRONT)
 
-    def set_arms_position(self, arms, positions):
+    def set_arms_position(self, arms: List[int], positions: List[float]):
         for i in range(len(arms)):
             self.elements[arms[i]].setPosition(positions[i])
 
@@ -53,7 +54,7 @@ class Arm:
     def reset(self):
         self.set_arms_position([self.ARM1, self.ARM2, self.ARM3, self.ARM4, self.ARM5], [.0, 1.57, -2.635, 1.78, .0])
 
-    def set_height(self, height: Height):
+    def set_height(self, height: int):
         if height == Height.ARM_FRONT_FLOOR:
             self._change([-.97, -1.55, -.61, .0])
         elif height == Height.ARM_FRONT_PLATE:
@@ -98,7 +99,7 @@ class Arm:
 
         self.set_height(self.current_height)
 
-    def set_orientation(self, orientation: Orientation):
+    def set_orientation(self, orientation: int):
         if orientation == Orientation.ARM_BACK_LEFT:
             self.elements[self.ARM1].setPosition(-2.949)
         elif orientation == Orientation.ARM_LEFT:
@@ -161,8 +162,8 @@ class Arm:
         c = sqrt(x1 * x1 + y1 * y1)
 
         alpha = -asin(z / x1)
-        beta = -((pi / 2.0) - acos(normalize(((a * a) + (c * c) - (b * b)) / (2.0 * a * c)))) - atan2(y1, x1)
-        gamma = -(pi - acos(normalize((a * a + b * b - c * c) / (2.0 * a * b))))
+        beta = -((pi / 2.0) - acos(((a * a) + (c * c) - (b * b)) / (2.0 * a * c))) - atan2(y1, x1)
+        gamma = -(pi - acos((a * a + b * b - c * c) / (2.0 * a * b)))
         delta = -(pi + (beta + gamma))
         epsilon = (pi / 2.0) + alpha
 

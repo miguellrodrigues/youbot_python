@@ -5,8 +5,8 @@
 #  * All rights reserved
 
 from math import radians, sin, cos, atan2
-
 from lib.utils.matrix import Matrix
+from typing import List
 
 phi = radians(-90)
 
@@ -19,7 +19,7 @@ r_x.assign_matrix([
 ])
 
 
-def calculate_matrix_r(data):
+def calculate_matrix_r(data: List[float]) -> Matrix:
     matrix_r = Matrix(3, 3)
 
     cos_theta = cos(data[3])
@@ -40,7 +40,7 @@ def calculate_matrix_r(data):
     return matrix_r
 
 
-def calculate_angle(process_variable):
+def calculate_angle(process_variable: List[float]) -> float:
     matrix_r = calculate_matrix_r(process_variable)
 
     # matrix_r = Matrix(3, 3)
