@@ -161,9 +161,12 @@ class Arm:
         b = self.get_sub_length(self.ARM3)
         c = sqrt(x1 * x1 + y1 * y1)
 
+        cos_beta = (a ** 2 + c ** 2 - b ** 2) / (2.0 * a * c)
+        cos_gamma = (a ** 2 + b ** 2 - c ** 2) / (2.0 * a * b)
+
         alpha = -asin(z / x1)
-        beta = -((pi / 2.0) - acos(((a * a) + (c * c) - (b * b)) / (2.0 * a * c))) - atan2(y1, x1)
-        gamma = -(pi - acos((a * a + b * b - c * c) / (2.0 * a * b)))
+        beta = -((pi / 2.0) - acos(cos_beta)) - atan2(y1, x1)
+        gamma = -(pi - acos(cos_gamma))
         delta = -(pi + (beta + gamma))
         epsilon = (pi / 2.0) + alpha
 

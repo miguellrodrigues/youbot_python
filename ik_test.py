@@ -63,7 +63,7 @@ while cont.step() != -1:
 
     elbow_angle = -pi + (angle_a + angle_b)
 
-    youBot._arm.ik(0.1, 0.1, 0.0)
+    youBot._arm.ik(0.135, 0.155, 0.0)
 
     # youBot.set_heights([1, 2, 3], [-angle_a, -1.57 - elbow_angle, -(pi / 2.0) - alpha])
 
