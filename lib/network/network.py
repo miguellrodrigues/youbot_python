@@ -245,3 +245,7 @@ class Network:
         if random_double(.0, 1.0) < rate:
             for matrix in self.weight_matrices:
                 matrix.map(_mutate)
+
+    def assign(self, other):
+        for i in range(len(self.weight_matrices)):
+            self.weight_matrices[i].data = other.weight_matrices[i].data

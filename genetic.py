@@ -5,7 +5,7 @@
 #  * All rights reserved
 from typing import cast
 
-from lib.network.network import Network
+from lib.network.network import Network, load_network
 from lib.utils.vector import Vector
 from lib.webots_lib.wbc_controller import Controller
 from lib.youbot_control.youBot import YouBot
@@ -16,22 +16,24 @@ def normalize(value: float) -> float:
     return atan2(sin(value), cos(value))
 
 
-cont = Controller(14, True)
+cont = Controller(22, True)
 youBot = YouBot(cont)
 
 networks = []
+temp_networks = []
+
 errors = []
 
-max_per_generation = 2
+max_per_generation = 5
 generations = 50
 
 for i in range(max_per_generation):
-    networks.append(Network([1, 8, 8, 1]))
+    networks.append(Network([1, 8, 16, 16, 8, 1]))
 
 count = 0
 current = 0
 
-time_interval = 15
+time_interval = 10
 last_time = 0
 
 max_velocity = 16
@@ -40,15 +42,29 @@ network = networks[current]
 
 print("Geracao: {} de {}".format(count, generations))
 
+center = youBot.get_position()
+
+angle = .0
+
 while cont.step() != -1:
     time = cont.get_supervisor().getTime()
 
     youBot_position = youBot.get_position()
-    box_position = Vector(cont.get_object_position("box"))
 
     youBot_rotation_angle = youBot.get_rotation_angle()
 
-    theta = youBot_position.differenceAngle(box_position)
+    angle -= .01
+
+    x = 0.8 * cos(angle)
+    z = 0.8 * sin(angle)
+
+    center.add(Vector([x, .0, z]))
+
+    cont.set_object_position("box", [center.x, center.y, center.z])
+
+    theta = youBot_position.differenceAngle(center)
+
+    center.subtract(Vector([x, .0, z]))
 
     angle_error = normalize(youBot_rotation_angle + theta)
 
@@ -58,30 +74,35 @@ while cont.step() != -1:
         last_time = time
 
         if count < generations:
-            fitness = sum(errors) / len(errors)
+            sum_errors = .0
+
+            for error in errors:
+                sum_errors += abs(error)
+
+            fitness = sum_errors / len(errors)
 
             network.set_fitness(fitness)
 
             print("Individuo {} | Fitness {}".format(current, fitness))
 
-            errors = []
+            errors.clear()
 
             current += 1
 
             if current == len(networks):
                 count += 1
 
-                networks.sort(key=lambda x: x.get_fitness())
+                networks.sort(key=lambda n: n.get_fitness())
 
                 best_fitness = networks[0].get_fitness()
 
-                temp_networks = []
+                temp_networks.clear()
 
                 father = cast(Network, networks[0])
                 mother = cast(Network, networks[1])
 
                 for i in range(max_per_generation):
-                    net = Network([1, 8, 8, 1])
+                    net = Network([1, 8, 16, 16, 8, 1])
 
                     temp_networks.append(net)
 
@@ -112,4 +133,5 @@ while cont.step() != -1:
 
     youBot.set_wheels_speed([speed, -speed, speed, -speed])
 
-network.save("network.json")
+
+# network.save("network.json")

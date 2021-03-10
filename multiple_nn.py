@@ -27,6 +27,8 @@ angle_pid = Pid(8.0, 0.05, 6.0, 10.0, .3)
 
 max_velocity = 6
 
+errors = []
+
 while cont.step() != -1:
     youBot_position = youBot.get_position()
     box_position = Vector(cont.get_object_position("box"))
@@ -38,19 +40,27 @@ while cont.step() != -1:
 
     angle_error = normalize(youBot_rotation_angle + theta)
 
-    output = align_network.predict([angle_error])
+    errors.append(angle_error)
 
-    if angle_error > .01 or angle_error < -.01:
-        speed = output.get_value(0, 0) * max_velocity
-
-        youBot.set_wheels_speed([-speed, speed, -speed, speed])
-    else:
-        youBot.set_wheels_speed([.0, .0, .0, .0])
-
-    # angle_out = angle_pid.compute(angle_error, 14/1000)
+    # output = align_network.predict([angle_error])
+    # if angle_error > .01 or angle_error < -.01:
+    #     speed = output.get_value(0, 0) * max_velocity
     #
-    # youBot.set_wheels_speed([-angle_out, angle_out, -angle_out, angle_out])
-    #
-    # align_network.train([angle_error], [angle_out])
+    #     youBot.set_wheels_speed([-speed, speed, -speed, speed])
+    # else:
+    #     youBot.set_wheels_speed([.0, .0, .0, .0])
+
+    angle_out = angle_pid.compute(angle_error, 14/1000)
+
+    youBot.set_wheels_speed([-angle_out, angle_out, -angle_out, angle_out])
+
+    align_network.train([angle_error], [angle_out])
 
 align_network.save("align_network.json")
+
+a = .0
+
+for i in errors:
+    a += abs(i)
+
+print( a / len(errors) )
