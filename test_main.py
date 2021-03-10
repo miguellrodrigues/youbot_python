@@ -6,7 +6,6 @@
 
 from math import pi, radians
 
-from lib.utils.angle import calculate_angle
 from lib.utils.fuzzy_set import FuzzySet, de_fuzzy
 from lib.utils.pid import Pid
 from lib.utils.vector import normalize_radian, Vector
@@ -58,14 +57,12 @@ while cont.step() != -1:
     youBot_position = youBot.get_position()
     box_position = Vector(cont.get_object_position("box"))
 
-    youBot_rotation = cont.get_object_rotation("youBot")
+    youBot_rotation = youBot.get_rotation_angle()
     box_rotation = cont.get_object_rotation("box")
-
-    angle = calculate_angle(cont, youBot_rotation)
 
     theta = youBot_position.differenceAngle(box_position)
 
-    angle_error = normalize_radian(angle + theta)
+    angle_error = normalize_radian(youBot_rotation + theta)
 
     old_error = error
     error = angle_error

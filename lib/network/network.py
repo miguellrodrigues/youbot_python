@@ -5,8 +5,12 @@
 #  * All rights reserved
 
 from lib.network.layer import Layer
-from lib.utils.matrix import Matrix, array_to_matrix
+from lib.utils.matrix import Matrix, array_to_matrix, random_double
 import json
+
+
+def _mutate(value):
+    return value + random_double(random_double(-1.0, 1.0), random_double(-1.0, 1.0))
 
 
 def load_network(path: str):
@@ -32,13 +36,15 @@ class Network:
         self.errors = []
         self.derived_errors = []
 
-        self.bias = 0.01
+        self.bias = 0.02
 
         self.global_error = 0.0
 
-        self.learning_rate = 0.0001
+        self.learning_rate = 0.005
 
         self.output_index = self.topology_size - 1
+
+        self.fitness = .0
 
         # topology[0] = topology[0] + topology[self.topology_size - 1]
 
@@ -216,3 +222,26 @@ class Network:
         self.feed_forward()
 
         return self.layers[self.output_index].convert_to_matrix(Layer.ACTIVATED_VALUES)
+
+    def set_fitness(self, fitness):
+        self.fitness = fitness
+    
+    def get_fitness(self):
+        return self.fitness
+
+    def cross_over(self, father, mother):
+        for i in range(len(self.weight_matrices)):
+            father_weight = father.weight_matrices[i]
+            mother_weight = mother.weight_matrices[i]
+
+            for j in range(father_weight.rows):
+                for k in range(father_weight.cols):
+                    if random_double(.0, 1.0) < .5:
+                        self.weight_matrices[i].set_value(j, k, father_weight.get_value(j, k))
+                    else:
+                        self.weight_matrices[i].set_value(j, k, mother_weight.get_value(j, k))
+
+    def mutate(self, rate):
+        if random_double(.0, 1.0) < rate:
+            for matrix in self.weight_matrices:
+                matrix.map(_mutate)
