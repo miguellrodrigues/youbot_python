@@ -3,9 +3,8 @@
 #  * Last modified 10/03/2021 17:02
 #  * Miguel L. Rodrigues
 #  * All rights reserved
-from typing import cast
 
-from lib.network.network import Network, load_network
+from lib.network.network import Network
 from lib.utils.vector import Vector
 from lib.webots_lib.wbc_controller import Controller
 from lib.youbot_control.youBot import YouBot
@@ -20,7 +19,6 @@ cont = Controller(22, True)
 youBot = YouBot(cont)
 
 networks = []
-temp_networks = []
 
 errors = []
 
@@ -96,28 +94,19 @@ while cont.step() != -1:
 
                 best_fitness = networks[0].get_fitness()
 
-                temp_networks.clear()
-
-                father = cast(Network, networks[0])
-                mother = cast(Network, networks[1])
-
-                for i in range(max_per_generation):
-                    net = Network([1, 8, 16, 16, 8, 1])
-
-                    temp_networks.append(net)
+                father = networks[0]
+                mother = networks[1]
 
                 networks.clear()
 
-                for i in range(len(temp_networks)):
-                    net = temp_networks[i]
+                for i in range(max_per_generation):
+                    net = Network([1, 8, 16, 16, 8, 1])
 
                     net.cross_over(father, mother)
 
                     net.mutate(.3)
 
                     networks.append(net)
-
-                temp_networks.clear()
 
                 print("Best fitness: {}".format(best_fitness))
 
