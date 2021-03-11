@@ -10,7 +10,7 @@ import json
 
 
 def _mutate(value):
-    return value + random_double(random_double(-1.0, 1.0), random_double(-1.0, 1.0))
+    return value + random_double(-.1, .1)# random_double(random_double(-.5, .5), random_double(-.5, .5))
 
 
 def load_network(path: str):
