@@ -39,7 +39,7 @@ class Arm:
         self.elements[self.ARM4] = self.controller.get_device_by_name("arm4")
         self.elements[self.ARM5] = self.controller.get_device_by_name("arm5")
 
-        self.controller.set_motor_velocity(self.ARM2, 3.1415)
+        self.controller.set_motor_velocity(self.ARM2, 1.5)
 
         self.set_height(Height.ARM_RESET)
         self.set_orientation(Orientation.ARM_FRONT)

@@ -36,7 +36,7 @@ class Network:
         self.errors = []
         self.derived_errors = []
 
-        self.bias = 0.02
+        self.bias = 0.01
 
         self.global_error = 0.0
 

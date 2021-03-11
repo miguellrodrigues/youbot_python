@@ -12,6 +12,7 @@ from lib.youbot_control.youBot import YouBot
 from math import atan2, sin, cos
 import matplotlib.pyplot as plt
 from datetime import datetime
+import csv
 
 fig = plt.figure()
 
@@ -42,7 +43,7 @@ xx = [0]
 time_interval = 10
 last_time = 0
 
-max_velocity = 64
+max_velocity = 14.81
 
 network = networks[current]
 
@@ -161,18 +162,27 @@ while cont.step() != -1:
 
 network.save("network1.json")
 
-ax1.clear()
-
-ax1.plot(xx, fitness_list)
-
-plt.show()
-
 train_data = {
     "date": datetime.today().strftime('%d-%m-%Y-%H:%M:%S'),
     "topology": network.topology,
     "bias": network.bias,
+    "max_generations": generations,
+    "max_per_generation": max_per_generation,
     "log": logs
 }
 
-with open("log_data_{}.json".format(train_data['date']), "w") as file:
+ax1.clear()
+
+ax1.plot(xx, fitness_list)
+
+plt.savefig("./img/img_{}.png".format(train_data['date']), dpi=600, format='png', bbox_inches='tight')
+plt.show()
+
+with open("./log/log_data_{}.json".format(train_data['date']), "w") as file:
     json.dump(train_data, file)
+
+
+f = csv.writer(open("./csv/log_data_{}.csv".format(train_data['date']), "w"))
+
+f.writerow(train_data.keys())
+f.writerow(train_data.values())
