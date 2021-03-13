@@ -5,11 +5,11 @@
 #  * All rights reserved
 import json
 
-from lib.network.network import Network
+from lib.network.network import Network, cross_over
 from lib.utils.vector import Vector
 from lib.webots_lib.wbc_controller import Controller
 from lib.youbot_control.youBot import YouBot
-from math import atan2, sin, cos
+from math import atan2, sin, cos, pi
 import matplotlib.pyplot as plt
 from datetime import datetime
 import csv
@@ -30,20 +30,20 @@ networks = []
 
 errors = []
 
-max_per_generation = 10
+max_per_generation = 5
 generations = 1000
 
 for i in range(max_per_generation):
-    networks.append(Network([1, 8, 16, 16, 8, 1]))
+    networks.append(Network([2, 16, 16, 16, 3]))
 
 count = 0
 current = 0
 xx = [0]
 
-time_interval = 10
+time_interval = 120
 last_time = 0
 
-max_velocity = 14.81
+max_velocity = 8
 
 network = networks[current]
 
@@ -60,7 +60,7 @@ comp = .005
 
 fitness_list = [.0]
 
-target_fit = .00001
+target_fit = .0003
 
 logs = []
 
@@ -70,6 +70,9 @@ while cont.step() != -1:
     youBot_position = youBot.get_position()
 
     youBot_rotation_angle = youBot.get_rotation_angle()
+
+    if angle > pi or angle < -pi:
+        comp *= -1
 
     angle += comp
 
@@ -133,11 +136,11 @@ while cont.step() != -1:
                 networks.clear()
 
                 for i in range(max_per_generation):
-                    net = Network([1, 8, 16, 16, 8, 1])
+                    net = Network([2, 16, 16, 16, 3])
 
-                    net.cross_over(father, mother)
+                    cross_over(net, father, mother)
 
-                    net.mutate(.3)
+                    net.mutate(.2)
 
                     networks.append(net)
 
@@ -153,12 +156,16 @@ while cont.step() != -1:
 
             network = networks[current]
 
-    output = network.predict([angle_error])
+    output = network.predict([abs(angle_error), 1.0 if angle_error > 0 else .0])
 
-    speed = output.get_value(0, 0) * max_velocity
+    if output.get_value(0, 0) > 0:
+        youBot.set_wheels_speed([max_velocity, -max_velocity, max_velocity, -max_velocity])
 
-    youBot.set_wheels_speed([speed, -speed, speed, -speed])
+    if output.get_value(1, 0) > 0:
+        youBot.set_wheels_speed([-max_velocity, max_velocity, -max_velocity, max_velocity])
 
+    if output.get_value(2, 0) > 0:
+        youBot.set_wheels_speed([.0, .0, .0, .0])
 
 network.save("network1.json")
 

@@ -16,6 +16,10 @@ def random_double(minimum, maximum):
     return sr.uniform(minimum, maximum)
 
 
+def random_int(minimum, maximum):
+    return sr.randint(minimum, maximum)
+
+
 def array_to_matrix(array):
     matrix = Matrix(len(array), 1)
 

@@ -5,7 +5,7 @@
 #  * All rights reserved
 
 from lib.network.layer import Layer
-from lib.utils.matrix import Matrix, array_to_matrix, random_double
+from lib.utils.matrix import Matrix, array_to_matrix, random_double, random_int
 import json
 
 
@@ -25,6 +25,19 @@ def load_network(path: str):
         return network
 
 
+def cross_over(net, father, mother):
+    for i in range(len(net.weight_matrices)):
+        father_weight = father.weight_matrices[i]
+        mother_weight = mother.weight_matrices[i]
+
+        for j in range(father_weight.rows):
+            for k in range(father_weight.cols):
+                if random_double(.0, 1.0) < .5:
+                    net.weight_matrices[i].set_value(j, k, father_weight.get_value(j, k))
+                else:
+                    net.weight_matrices[i].set_value(j, k, mother_weight.get_value(j, k))
+
+
 class Network:
     def __init__(self, topology):
         self.topology = topology
@@ -36,7 +49,7 @@ class Network:
         self.errors = []
         self.derived_errors = []
 
-        self.bias = 0.01
+        self.bias = 0.016
 
         self.global_error = 0.0
 
@@ -229,22 +242,18 @@ class Network:
     def get_fitness(self):
         return self.fitness
 
-    def cross_over(self, father, mother):
-        for i in range(len(self.weight_matrices)):
-            father_weight = father.weight_matrices[i]
-            mother_weight = mother.weight_matrices[i]
-
-            for j in range(father_weight.rows):
-                for k in range(father_weight.cols):
-                    if random_double(.0, 1.0) < .5:
-                        self.weight_matrices[i].set_value(j, k, father_weight.get_value(j, k))
-                    else:
-                        self.weight_matrices[i].set_value(j, k, mother_weight.get_value(j, k))
-
     def mutate(self, rate):
-        if random_double(.0, 1.0) < rate:
-            for matrix in self.weight_matrices:
-                matrix.map(_mutate)
+        for weight_matrix in self.weight_matrices:
+            count = int(rate * weight_matrix.cols)
+
+            random_row = random_int(0, weight_matrix.rows - 1)
+
+            for i in range(count):
+                random_col = random_int(0, weight_matrix.cols - 1)
+
+                value = weight_matrix.get_value(random_row, random_col)
+
+                weight_matrix.set_value(random_row, random_col, value + random_double(-1.0, 1.0))
 
     def assign(self, other):
         for i in range(len(self.weight_matrices)):
