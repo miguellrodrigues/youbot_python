@@ -6,6 +6,7 @@
 import json
 
 from lib.network.network import Network, cross_over
+from lib.utils.numbers import normalize, random_item
 from lib.utils.vector import Vector
 from lib.webots_lib.wbc_controller import Controller
 from lib.youbot_control.youBot import YouBot
@@ -19,28 +20,25 @@ fig = plt.figure()
 ax1 = fig.add_subplot()
 
 
-def normalize(value: float) -> float:
-    return atan2(sin(value), cos(value))
-
-
-cont = Controller(14, True)
+cont = Controller(20, True)
 youBot = YouBot(cont)
 
 networks = []
 
 errors = []
 
-max_per_generation = 5
-generations = 1000
+max_per_generation = 2
+generations = 200
+
+topology = [2, 16, 16, 16, 1]
 
 for i in range(max_per_generation):
-    networks.append(Network([2, 16, 16, 16, 3]))
+    networks.append(Network(topology))
 
 count = 0
 current = 0
-xx = [0]
 
-time_interval = 120
+time_interval = 60
 last_time = 0
 
 max_velocity = 8
@@ -104,9 +102,6 @@ while cont.step() != -1:
 
             fit_err = 0.5 * pow(target_fit - fitness, 2.0)
 
-            if fit_err <= target_fit:
-                network.save("net.json")
-
             network.set_fitness(fitness)
 
             cont.set_object_position("youBot", [initial_position.x, initial_position.y, initial_position.z])
@@ -122,8 +117,6 @@ while cont.step() != -1:
             if current == len(networks):
                 count += 1
 
-                xx.append(xx[-1] + 1.0)
-
                 networks.sort(key=lambda n: n.get_fitness())
 
                 best_fitness = networks[0].get_fitness()
@@ -131,17 +124,15 @@ while cont.step() != -1:
                 fitness_list.append(best_fitness)
 
                 father = networks[0]
-                mother = networks[1]
-
-                networks.clear()
 
                 for i in range(max_per_generation):
-                    net = Network([2, 16, 16, 16, 3])
+                    net = Network(topology)
 
-                    cross_over(net, father, mother)
+                    cross_over(net, father, random_item(networks))
 
                     net.mutate(.2)
 
+                    networks.remove(networks[i])
                     networks.append(net)
 
                 logs.append("Best fitness: {}".format(best_fitness))
@@ -158,14 +149,9 @@ while cont.step() != -1:
 
     output = network.predict([abs(angle_error), 1.0 if angle_error > 0 else .0])
 
-    if output.get_value(0, 0) > 0:
-        youBot.set_wheels_speed([max_velocity, -max_velocity, max_velocity, -max_velocity])
+    s = max_velocity * output.get_value(0, 0)
 
-    if output.get_value(1, 0) > 0:
-        youBot.set_wheels_speed([-max_velocity, max_velocity, -max_velocity, max_velocity])
-
-    if output.get_value(2, 0) > 0:
-        youBot.set_wheels_speed([.0, .0, .0, .0])
+    youBot.set_wheels_speed([-s, s, -s, s])
 
 network.save("network1.json")
 
@@ -180,7 +166,7 @@ train_data = {
 
 ax1.clear()
 
-ax1.plot(xx, fitness_list)
+ax1.plot(range(len(fitness_list)), fitness_list)
 
 plt.savefig("./img/img_{}.png".format(train_data['date']), dpi=600, format='png', bbox_inches='tight')
 plt.show()

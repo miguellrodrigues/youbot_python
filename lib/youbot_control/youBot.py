@@ -4,6 +4,7 @@
 #  * Miguel L. Rodrigues
 #  * All rights reserved
 from lib.utils.angle import calculate_angle
+from lib.utils.matrix import Matrix
 from lib.utils.vector import Vector, normalize_radian
 from lib.webots_lib.wbc_controller import Controller
 from lib.youbot_control.arm import Arm
@@ -22,6 +23,8 @@ class YouBot:
 
         self.node_def = self.controller.get_supervisor().getName()
 
+        self.rotation_matrix = Matrix(3, 3, False)
+
     def passive_wait(self, seconds):
         start_time = self.controller.get_supervisor().getTime()
 
@@ -29,7 +32,9 @@ class YouBot:
             self.controller.step()
 
     def get_rotation_angle(self):
-        return calculate_angle(self.controller.get_object_rotation(self.node_def))
+        self.rotation_matrix.assign_array(self.controller.get_object_orientation(self.node_def))
+
+        return calculate_angle(self.rotation_matrix)
 
     def get_position(self):
         return Vector(self.controller.get_object_position(self.node_def))

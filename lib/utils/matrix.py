@@ -3,21 +3,7 @@
 #  * Last modified 16/02/2021 10:36
 #  * Miguel L. Rodrigues
 #  * All rights reserved
-
-from datetime import datetime
-from random import SystemRandom
-
-sr = SystemRandom()
-
-sr.seed(datetime.timestamp(datetime.now()))
-
-
-def random_double(minimum, maximum):
-    return sr.uniform(minimum, maximum)
-
-
-def random_int(minimum, maximum):
-    return sr.randint(minimum, maximum)
+from lib.utils.numbers import random_double
 
 
 def array_to_matrix(array):
@@ -25,6 +11,19 @@ def array_to_matrix(array):
 
     for i in range(len(array)):
         matrix.set_value(i, 0, array[i])
+
+    return matrix
+
+
+def list_to_matrix(lst, rows, cols):
+    matrix = Matrix(rows, cols)
+
+    count = 0
+
+    for i in range(rows):
+        for j in range(cols):
+            matrix.set_value(i, j, lst[count])
+            count += 1
 
     return matrix
 
@@ -148,3 +147,20 @@ class Matrix:
         for i in range(matrix.rows):
             for j in range(matrix.cols):
                 self.set_value(i, j, matrix.get_value(i, j))
+
+    def to_list(self):
+        values = []
+
+        for i in range(self.rows):
+            for j in range(self.cols):
+                values.append(self.get_value(i, j))
+
+        return values
+
+    def assign_array(self, lst):
+        count = 0
+
+        for i in range(self.rows):
+            for j in range(self.cols):
+                self.set_value(i, j, lst[count])
+                count += 1

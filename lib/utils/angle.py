@@ -18,6 +18,8 @@ r_x.assign_matrix([
     [0, sin(phi), cos(phi)]
 ])
 
+r_x = r_x.transpose()
+
 
 def calculate_matrix_r(data: List[float]) -> Matrix:
     matrix_r = Matrix(3, 3)
@@ -40,8 +42,8 @@ def calculate_matrix_r(data: List[float]) -> Matrix:
     return matrix_r
 
 
-def calculate_angle(process_variable: List[float]) -> float:
-    matrix_r = calculate_matrix_r(process_variable)
+def calculate_angle(rotation_matrix: Matrix) -> float:
+    # matrix_r = calculate_matrix_r(process_variable)
 
     # matrix_r = Matrix(3, 3)
     #
@@ -53,7 +55,7 @@ def calculate_angle(process_variable: List[float]) -> float:
     #
     # matrix_r.assign_matrix(d)
 
-    result = r_x.transpose().multiply(matrix_r)
+    result = r_x.multiply(rotation_matrix)
 
     angle = atan2(result.get_value(1, 0), result.get_value(0, 0))
 

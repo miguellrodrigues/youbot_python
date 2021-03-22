@@ -5,12 +5,43 @@
 #  * All rights reserved
 
 from lib.network.layer import Layer
-from lib.utils.matrix import Matrix, array_to_matrix, random_double, random_int
+from lib.utils.matrix import Matrix, array_to_matrix, random_double, list_to_matrix
 import json
 
+from lib.utils.numbers import random_int, random_item
 
-def _mutate(value):
-    return value + random_double(-.1, .1)# random_double(random_double(-.5, .5), random_double(-.5, .5))
+
+def sl(lists):
+    values = []
+
+    size = len(lists[0])
+
+    p1 = random_int(1, size - 1)
+    p2 = random_int(p1, size - 1)
+
+    if p1 == p2:
+        p2 += 1
+
+    for _sl in lists:
+        x = _sl[:p1]
+        y = _sl[p1:p2]
+        z = _sl[p2:]
+
+        values.append([x, y, z])
+
+    return values
+
+
+def combine(slices):
+    a = slices[0]
+    b = slices[1]
+
+    x = [
+        a[0] + b[1] + a[2],
+        b[0] + a[1] + b[2]
+    ]
+
+    return x
 
 
 def load_network(path: str):
@@ -30,12 +61,11 @@ def cross_over(net, father, mother):
         father_weight = father.weight_matrices[i]
         mother_weight = mother.weight_matrices[i]
 
-        for j in range(father_weight.rows):
-            for k in range(father_weight.cols):
-                if random_double(.0, 1.0) < .5:
-                    net.weight_matrices[i].set_value(j, k, father_weight.get_value(j, k))
-                else:
-                    net.weight_matrices[i].set_value(j, k, mother_weight.get_value(j, k))
+        slices = sl([father_weight.to_list(), mother_weight.to_list()])
+
+        child = random_item(combine(slices))
+
+        net.weight_matrices[i] = list_to_matrix(child, father_weight.rows, father_weight.cols)
 
 
 class Network:
@@ -49,7 +79,7 @@ class Network:
         self.errors = []
         self.derived_errors = []
 
-        self.bias = 0.016
+        self.bias = 0.01
 
         self.global_error = 0.0
 
@@ -58,8 +88,6 @@ class Network:
         self.output_index = self.topology_size - 1
 
         self.fitness = .0
-
-        # topology[0] = topology[0] + topology[self.topology_size - 1]
 
         for i in range(self.topology_size):
             self.layers.append(Layer(topology[i]))
@@ -86,16 +114,6 @@ class Network:
         for i in range(input_matrix.rows):
             self.layers[0].set_neuron_value(i, input_matrix.get_value(i, 0))
 
-    # def set_recurrent_input(self):
-    #     output = self.layers[self.output_index].convert_to_matrix(Layer.ACTIVATED_VALUES)
-    #
-    #     i = self.topology[0] - self.topology[self.output_index]
-    #
-    #     while i < self.topology[0]:
-    #         self.layers[0].set_neuron_value(i, output.get_value(i - self.topology[self.output_index], 0))
-    #
-    #         i += 1
-
     def feed_forward(self):
         for i in range(self.topology_size - 1):
             if i != 0:
@@ -109,8 +127,6 @@ class Network:
 
             for j in range(r.rows):
                 self.layers[i + 1].set_neuron_value(j, (r.get_value(j, 0) + self.bias))
-
-        # self.set_recurrent_input()
 
     def set_errors(self, meta: Matrix):
         if meta.rows == 0:
@@ -238,7 +254,7 @@ class Network:
 
     def set_fitness(self, fitness):
         self.fitness = fitness
-    
+
     def get_fitness(self):
         return self.fitness
 

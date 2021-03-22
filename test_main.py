@@ -24,11 +24,11 @@ kp_normal_output = FuzzySet(FuzzySet.TRIANGULAR, [2.0, 7.1, 11.0])
 kp_high_output = FuzzySet(FuzzySet.TRIANGULAR, [5.2, 5.6, 9.4])
 kp_very_high_output = FuzzySet(FuzzySet.TRIANGULAR, [5.4, 9.6, 14.8])
 
+
 ki_very_low_error = FuzzySet(FuzzySet.TRIANGULAR, [-1300, -1050, -800])
 ki_low_error = FuzzySet(FuzzySet.TRIANGULAR, [-1300, -800, 50])
 ki_medium_error = FuzzySet(FuzzySet.TRIANGULAR, [-800, 50, -700])
 ki_high_error = FuzzySet(FuzzySet.TRIANGULAR, [50, 700, 1200])
-
 
 ki_very_low_output = FuzzySet(FuzzySet.TRIANGULAR, [-.001, .005, .001])
 ki_low_output = FuzzySet(FuzzySet.TRIANGULAR, [-.004, .008, .004])
