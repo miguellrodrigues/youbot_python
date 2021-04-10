@@ -110,26 +110,25 @@ class YouBot:
         self._arm.set_arms_position(arms, values)
 
     def throw(self):
-        self.set_arm_height(Height.ARM_PREPARE_LAUNCH)
-        self.passive_wait(1.0)
-
         self.set_arm_height(Height.ARM_LAUNCH)
-        self.passive_wait(.55)
+
+        self.passive_wait(.58)
         self.grip_release()
-        self.passive_wait(.16)
+        self.passive_wait(.2)
 
         self.arm_reset()
-        self.grip()
         self.passive_wait(2.0)
+        self.grip()
 
-    def pickup(self):
+    def pickup(self, r):
         self.grip_release()
         self.passive_wait(1.0)
-        self.set_arm_height(Height.ARM_FRONT_TABLE_BOX)
-        self.passive_wait(1.0)
-        self.passive_wait(.8)
+        self.set_arm_height_and_gripper_orientation(Height.ARM_FRONT_TABLE_BOX, r)
+        self.passive_wait(2.2)
         self.grip()
-        self.passive_wait(.8)
+        self.passive_wait(.4)
+        self.set_arm_height(Height.ARM_PREPARE_LAUNCH)
+        self.passive_wait(1.2)
 
     def getOrientation(self):
         return self.controller.get_object_orientation(self.node_def)

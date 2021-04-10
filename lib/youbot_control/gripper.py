@@ -27,8 +27,8 @@ class Gripper:
         self.fingers[self.LEFT] = self.controller.get_device_by_name("finger1")
         self.fingers[self.RIGHT] = self.controller.get_device_by_name("finger2")
 
-        self.fingers[self.LEFT].setVelocity(0.03)
-        self.fingers[self.RIGHT].setVelocity(0.03)
+        self.fingers[self.LEFT].setVelocity(1.0)
+        self.fingers[self.RIGHT].setVelocity(1.0)
 
     def grip(self):
         self.fingers[self.LEFT].setPosition(self.MIN_POS)

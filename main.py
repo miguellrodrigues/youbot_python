@@ -4,17 +4,15 @@
 #  * Miguel L. Rodrigues
 #  * All rights reserved
 
-from math import radians, pi, sqrt, asin
+from math import radians
 from random import uniform
 
-from lib.utils.angle import calculate_angle
 from lib.utils.pid import Pid
-from lib.utils.vector import Vector, normalize_radian
+from lib.utils.vector import Vector
 from lib.webots_lib.wbc_controller import Controller
-from lib.youbot_control.enum import Height
 from lib.youbot_control.youBot import YouBot
 
-cont = Controller(14, True)
+cont = Controller(16, True)
 youBot = YouBot(cont)
 
 angle_pid = Pid(8.0, 0.05, 6.0, 10.0, .3)
@@ -22,6 +20,9 @@ distance_pid = Pid(5.0, .01, 2.0, 5.0, .01)
 
 start_time = .0
 end_time = .0
+
+launch_x = -.9
+launch_z = -0.0562697
 
 state = 'align'
 
@@ -42,7 +43,7 @@ while cont.step() != -1:
     start_time = cont.get_supervisor().getTime()
 
     youBot_position = youBot.get_position()
-    youBot_rotation_angle = calculate_angle(youBot.getOrientation())
+    youBot_rotation_angle = youBot.get_rotation_angle()
 
     box_position = Vector(cont.get_object_position("box"))
 
@@ -53,9 +54,7 @@ while cont.step() != -1:
     youBot.set_wheels_speed([.0, .0, .0, .0])
 
     if state == 'align' and (in_tolerance(distance_error, distance_tolerance)) and (in_tolerance(angle_error, angle_tolerance)):
-        state = 'align_base'
-
-        angle_pid.update_weights([4.0, 0.005, 2.0])
+        state = 'pick'
     elif state == 'pick' and can_throw:
         state = 'throw'
     elif state == 'throw' and not can_throw:
@@ -68,45 +67,34 @@ while cont.step() != -1:
         out_plus = angle_out + distance_out
         out_minus = angle_out - distance_out
 
-        youBot.set_wheels_speed([-out_minus, out_plus, out_minus, -out_plus])
+        youBot.set_wheels_speed([-out_minus, out_plus, out_plus, -out_minus])
 
         end_time = cont.get_supervisor().getTime()
-    elif state == 'align_base':
-        dif = box_position.subtract(youBot_position)
-
-        x1 = sqrt(dif.x * dif.x + dif.z * dif.z)
-
-        alpha = -asin(dif.z / x1)
-
-        rest = cont.get_object_rotation("box")[3] % (pi / 4.0)
-
-        if rest > (pi / 4.0):
-            theta = -((pi / 2.0) - rest)
-        else:
-            theta = -rest
-        
-        angle_error = alpha + (theta - youBot_rotation_angle)
-
-        youBot._arm.set_arms_position([0], [alpha])
-
-        angle_out = angle_pid.compute(angle_error, start_time - end_time)
-
-        youBot.set_wheels_speed([angle_out, -angle_out, angle_out, -angle_out])
-
-        print(angle_error)
-
-        if angle_error < 0.01:
-            youBot.set_arm_height(Height.ARM_FRONT_CARDBOARD_BOX)
     elif state == 'pick':
-        youBot.pickup()
+        youBot.pickup(0)
+
+        x_err = launch_x - youBot.get_position().x
+        z_err = launch_z - youBot.get_position().z
+
+        while (abs(x_err) > .01 or abs(z_err) > .01) and cont.step() != -1:
+            u_x = x_err * 12
+            u_z = z_err * 12
+
+            youBot.set_wheels_speed([-u_z + u_x, u_z + u_x, u_z + u_x, -u_z + u_x])
+
+            z_err = launch_z - youBot.get_position().z
+            x_err = launch_x - youBot.get_position().x
+
+        youBot.set_wheels_speed([.0, .0, .0, .0])
+        youBot.passive_wait(.5)
 
         can_throw = True
     elif state == 'throw':
         youBot.throw()
 
-        x = uniform(-.559, -.459)
-        z = uniform(.246, -.254)
+        x = uniform(-0.509027, -0.419027)
+        z = uniform(-0.296191, 0.253809)
 
-        cont.set_object_position('box', [x, .262492, z])
+        cont.set_object_position('box', [x, .282492, z])
 
         can_throw = False

@@ -39,7 +39,7 @@ class Arm:
         self.elements[self.ARM4] = self.controller.get_device_by_name("arm4")
         self.elements[self.ARM5] = self.controller.get_device_by_name("arm5")
 
-        self.controller.set_motor_velocity(self.ARM2, 1.5)
+        self.controller.set_motor_velocity(self.ARM1, 3.14)
 
         self.set_height(Height.ARM_RESET)
         self.set_orientation(Orientation.ARM_FRONT)
@@ -66,7 +66,7 @@ class Arm:
         elif height == Height.ARM_PREPARE_LAUNCH:
             self._change([1.0, .72, .3, .0])
         elif height == Height.ARM_LAUNCH:
-            self._change([-.5, -.5, -.3, .0])
+            self._change([-.9, -.9, radians(-100), .0])
         elif height == Height.ARM_RESET:
             self._change([1.57, -2.635, 1.78, .0])
         elif height == Height.ARM_BACK_PLATE_HIGH:
@@ -77,6 +77,8 @@ class Arm:
             self._change([-.4, -1.2, -(pi / 2.0), (pi / 2.0)])
         elif height == Height.ARM_ALIGNING:
             self._change([-.278, -.682, radians(-75), .0])
+        elif height == Height.TEST:
+            self._change([.0, .0, radians(-90), .0])
         else:
             print("invalid height argument")
             return

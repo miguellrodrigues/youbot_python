@@ -38,7 +38,7 @@ class Matrix:
         if is_random:
             for i in range(rows):
                 for j in range(cols):
-                    self.data[i][j] = random_double(-.501, .501)
+                    self.data[i][j] = random_double(-.01, .01)
         else:
             for i in range(rows):
                 for j in range(cols):

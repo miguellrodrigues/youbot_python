@@ -10,7 +10,7 @@ from lib.utils.numbers import normalize, random_item
 from lib.utils.vector import Vector
 from lib.webots_lib.wbc_controller import Controller
 from lib.youbot_control.youBot import YouBot
-from math import atan2, sin, cos, pi
+from math import sin, cos, pi
 import matplotlib.pyplot as plt
 from datetime import datetime
 import csv
@@ -20,14 +20,14 @@ fig = plt.figure()
 ax1 = fig.add_subplot()
 
 
-cont = Controller(20, True)
+cont = Controller(64, True)
 youBot = YouBot(cont)
 
 networks = []
 
 errors = []
 
-max_per_generation = 2
+max_per_generation = 6
 generations = 200
 
 topology = [2, 16, 16, 16, 1]
@@ -41,7 +41,7 @@ current = 0
 time_interval = 60
 last_time = 0
 
-max_velocity = 8
+max_velocity = 6
 
 network = networks[current]
 
@@ -130,7 +130,7 @@ while cont.step() != -1:
 
                     cross_over(net, father, random_item(networks))
 
-                    net.mutate(.2)
+                    net.mutate(.05)
 
                     networks.remove(networks[i])
                     networks.append(net)
@@ -147,11 +147,14 @@ while cont.step() != -1:
 
             network = networks[current]
 
-    output = network.predict([abs(angle_error), 1.0 if angle_error > 0 else .0])
+    output = network.predict([abs(1.0 / angle_error), 1.0 if angle_error > 0 else .0])
 
-    s = max_velocity * output.get_value(0, 0)
+    s = output.get_value(0, 0)
 
-    youBot.set_wheels_speed([-s, s, -s, s])
+    o = s * abs(angle_error)
+
+    youBot.set_wheels_speed([-o, o, -o, o])
+
 
 network.save("network1.json")
 
