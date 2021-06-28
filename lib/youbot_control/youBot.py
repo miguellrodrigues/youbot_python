@@ -4,8 +4,8 @@
 #  * Miguel L. Rodrigues
 #  * All rights reserved
 from lib.utils.angle import calculate_angle
-from lib.utils.matrix import Matrix
-from lib.utils.vector import Vector, normalize_radian
+from lib.linalg.matrix import Matrix
+from lib.utils.vector import Vector
 from lib.webots_lib.wbc_controller import Controller
 from lib.youbot_control.arm import Arm
 from lib.youbot_control.base import Base

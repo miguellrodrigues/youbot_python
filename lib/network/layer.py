@@ -4,7 +4,7 @@
 #  * Miguel L. Rodrigues
 #  * All rights reserved
 from lib.network.neuron import Neuron
-from lib.utils.matrix import Matrix
+from lib.linalg.matrix import Matrix
 
 
 class Layer:

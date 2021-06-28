@@ -1,2 +1,0 @@
-date,topology,bias,max_generations,max_per_generation,log
-13-03-2021-13:59:26,"[2, 16, 16, 16, 3]",0.016,1000,5,"['Individuo 0 | Fitness 1.7842205670918265 | Fit Err 1.5917036738610686', 'Individuo 1 | Fitness 1.5614923963532046 | Fit Err 1.219113637060473', 'Individuo 2 | Fitness 1.5680695775370974 | Fit Err 1.22940541935291', 'Individuo 3 | Fitness 1.5666281108690272 | Fit Err 1.2271461526514198']"

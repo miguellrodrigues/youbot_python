@@ -5,7 +5,7 @@
 #  * All rights reserved
 
 from lib.network.layer import Layer
-from lib.utils.matrix import Matrix, array_to_matrix, random_double, list_to_matrix
+from lib.linalg.matrix import Matrix, array_to_matrix, random_double, list_to_matrix
 import json
 
 from lib.utils.numbers import random_int, random_item

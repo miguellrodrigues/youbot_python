@@ -5,7 +5,7 @@
 #  * All rights reserved
 
 from math import radians, sin, cos, atan2
-from lib.utils.matrix import Matrix
+from lib.linalg.matrix import Matrix
 from typing import List
 
 phi = radians(-90)
